@@ -7,3 +7,15 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+#headshot {
+  height: 200px;
+  max-width: 200px;
+}
+
+#MainPage {
+    
+}
+#Contact {
+  display: none
+}

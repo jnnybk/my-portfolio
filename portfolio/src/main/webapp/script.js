@@ -17,12 +17,18 @@
  */
 function addRandomGreeting() {
   const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+      ['I speak Korean and English!', 'I play two instruments: violin and piano!', 'My favorite foods are: pizza, icecream, french fries, and watermelon!', 'I am left-handed!'];
 
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
+  console.log('hello jenny')
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
+}
+
+function ToggleContact() {
+    var elem = document.getElementById("ContactMe")
+    // if elem is displayed, then un-display it
+    // if element is not displayed, then display it
 }
