@@ -12,23 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
+function setVisibility(currentValue, idName) {
+	if (idName === currentValue) {
+		document.getElementById(currentValue).style.display = "block";
+	} else {
+		document.getElementById(currentValue).style.display = "none";
+	}
+}
+function Toggle(idName) {
+	const sectionList = [ 'contact-section', 'about-section', 'main-section'];
+	for(const section of sectionList) {
+		setVisibility(section, idName);
+	}
+
+}
+
+
+
 function addRandomGreeting() {
   const greetings =
-      ['I speak Korean and English!', 'I play two instruments: violin and piano!', 'My favorite foods are: pizza, icecream, french fries, and watermelon!', 'I am left-handed!'];
+    ['I speak Korean and English!', 'I play two instruments: violin and piano!', 'My favorite foods are: pizza, icecream, french fries, and watermelon!', 'I am left-handed!'];
 
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-  console.log('hello jenny')
-  // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
-}
-
-function ToggleContact() {
-    var elem = document.getElementById("ContactMe")
-    // if elem is displayed, then un-display it
-    // if element is not displayed, then display it
 }
