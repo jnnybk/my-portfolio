@@ -21,7 +21,7 @@ function setVisibility(currentValue, idName) {
 }
 function Toggle(idName) {
 	const sectionList = [ 'contact-section', 'about-section', 'main-section'];
-	for(let section of sectionList) {
+	for(const section of sectionList) {
 		setVisibility(section, idName);
 	}
 
