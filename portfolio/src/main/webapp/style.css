@@ -13,12 +13,12 @@
   max-width: 200px;
 }
 
-#main-page {
+#main-section {
 	display: block
 }
-#contact-page {
+#contact-section {
   display: none
 }
-#about-page {
+#about-section {
 	display: none
 }

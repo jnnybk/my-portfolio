@@ -12,41 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+function setVisibility(currentValue, idName) {
+	if (idName === currentValue) {
+		document.getElementById(currentValue).style.display = "block";
+	} else {
+		document.getElementById(currentValue).style.display = "none";
+	}
+}
+function Toggle(idName) {
+	const sectionList = [ 'contact-section', 'about-section', 'main-section'];
+	for(let section of sectionList) {
+		setVisibility(section, idName);
+	}
 
-
-
-function ToggleContact() {
-	const contactElement = document.getElementById("contact-page");
-	const aboutElement = document.getElementById("about-page");
-	const mainElement = document.getElementById("main-page");
-
-	console.log("Function ToggleContact() has been invoked.");
-	contactElement.style.display = "block";
-	aboutElement.style.display = "none";
-	mainElement.style.display = "none";
 }
 
-function ToggleReset() {
-	const contactElement = document.getElementById("contact-page");
-	const aboutElement = document.getElementById("about-page");
-	const mainElement = document.getElementById("main-page");
-
-	console.log("Function ToggleReset() - back to main page - has been invoked.");
-	contactElement.style.display = "none";
-	aboutElement.style.display = "none";
-	mainElement.style.display = "block";
-}
-
-function ToggleAbout() {
-	const contactElement = document.getElementById("contact-page");
-	const aboutElement = document.getElementById("about-page");
-	const mainElement = document.getElementById("main-page");
-
-	console.log("Function ToggleAbout() has been invoked.");
-	contactElement.style.display = "none";
-	aboutElement.style.display = "block";
-	mainElement.style.display = "none";
-}
 
 
 function addRandomGreeting() {
