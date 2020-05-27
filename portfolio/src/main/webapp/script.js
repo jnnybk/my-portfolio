@@ -12,23 +12,49 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
+
+
+
+function ToggleContact() {
+	const contactElement = document.getElementById("contact-page");
+	const aboutElement = document.getElementById("about-page");
+	const mainElement = document.getElementById("main-page");
+
+	console.log("Function ToggleContact() has been invoked.");
+	contactElement.style.display = "block";
+	aboutElement.style.display = "none";
+	mainElement.style.display = "none";
+}
+
+function ToggleReset() {
+	const contactElement = document.getElementById("contact-page");
+	const aboutElement = document.getElementById("about-page");
+	const mainElement = document.getElementById("main-page");
+
+	console.log("Function ToggleReset() - back to main page - has been invoked.");
+	contactElement.style.display = "none";
+	aboutElement.style.display = "none";
+	mainElement.style.display = "block";
+}
+
+function ToggleAbout() {
+	const contactElement = document.getElementById("contact-page");
+	const aboutElement = document.getElementById("about-page");
+	const mainElement = document.getElementById("main-page");
+
+	console.log("Function ToggleAbout() has been invoked.");
+	contactElement.style.display = "none";
+	aboutElement.style.display = "block";
+	mainElement.style.display = "none";
+}
+
+
 function addRandomGreeting() {
   const greetings =
-      ['I speak Korean and English!', 'I play two instruments: violin and piano!', 'My favorite foods are: pizza, icecream, french fries, and watermelon!', 'I am left-handed!'];
+    ['I speak Korean and English!', 'I play two instruments: violin and piano!', 'My favorite foods are: pizza, icecream, french fries, and watermelon!', 'I am left-handed!'];
 
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-  console.log('hello jenny')
-  // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
-}
-
-function ToggleContact() {
-    var elem = document.getElementById("ContactMe")
-    // if elem is displayed, then un-display it
-    // if element is not displayed, then display it
 }

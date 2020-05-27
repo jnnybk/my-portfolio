@@ -13,9 +13,12 @@
   max-width: 200px;
 }
 
-#MainPage {
-    
+#main-page {
+	display: block
 }
-#Contact {
+#contact-page {
   display: none
+}
+#about-page {
+	display: none
 }
