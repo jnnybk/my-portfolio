@@ -1,18 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+	<head>
+		<meta charset="UTF-8">
+		<title>My Portfolio</title>
+		<link rel="stylesheet" href="style.css">
+		<script src="script.js"></script>
+	</head>
+	<body>
+	<div id="content">
+		<h1>Jenny's Portfolio</h1>
+
+		<table>
+			<tr>
+				<th onclick=>about me</th>
+			</tr>
+			<tr>
+				<th>contact me</th>
+			</tr>
+		</table>
+
+      
+    	<div id="MainPage">
+				<img id="headshot" src="/images/Headshot_Jenny.JPG" alt="Image of me."/>
+				<p>Click here to see a random fact about me!:</p>
+				<button onclick="addRandomGreeting()">Hello</button>
+				<div id="greeting-container"></div>
+			</div>
+
+			<div onclick="ToggleContact()" id="Contact">
+				<button link="https://www.instagram.com/waikandbaik/">Visit my food instagram!</button>
+        <button link="https://www.linkedin.com/jennybaik206">Connect with me on LinkedIn!</button>
+        <button link="mailto:baikj@google.com">Email me!</button>
+			</div>
+	
     </div>
   </body>
 </html>
