@@ -4,21 +4,34 @@
   width: 650px;
 }
 
-#greeting-container {
-  margin-top: 20px;
-}
-
 #headshot {
   height: 200px;
   max-width: 200px;
 }
 
 #main-section {
-	display: block
+	display: block;
 }
 #contact-section {
-  display: none
+  display: none;
 }
 #about-section {
-	display: none
+	display: none;
+}
+.upper-section {
+	background-color: rgb(34, 34, 59);
+}
+body {
+	color: rgb(242, 233, 228);
+}
+table {
+	color: rgb(201, 173, 167);
+}
+th {
+	color: rgb(201, 173, 167);
+}
+th:hover { 
+	color: white;
+	cursor: grab;
+	text-decoration-color: #E18728;
 }
