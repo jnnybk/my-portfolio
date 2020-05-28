@@ -15,14 +15,13 @@
 function setVisibility(currentValue, idName) {
 	if (idName === currentValue) {
 		document.getElementById(currentValue).style.display = "block";
-	} else {
+} else {
 		document.getElementById(currentValue).style.display = "none";
 	}
 }
 function Toggle(idName) {
-	const sectionList = [ 'contact-section', 'about-section', 'main-section'];
-	for(let section of sectionList) {
+	const sectionList = ['contact-section', 'about-section', 'main-section'];
+	for (let section of sectionList) {
 		setVisibility(section, idName);
 	}
-
 }
