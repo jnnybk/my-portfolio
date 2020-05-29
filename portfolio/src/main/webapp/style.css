@@ -3,14 +3,14 @@
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(242, 233, 228);
 }
-
 #headshot {
 	width: 200px;
 	min-height: 200px;
 }
-
 #main-section {
 	display: block;
 }
@@ -20,14 +20,12 @@
 #about-section {
 	display: none;
 }
-.upper-section {
-	background-color: rgb(242, 233, 228);
-	
-}
 body {
 	color: rgb(34, 34, 59);
+  height: 100%;
+  background-color: #4a4e69;
 }
-table {
+#menu {
 	color: rgb(201, 173, 167);
 	text-align: center;
 	margin-left: auto; 
@@ -56,4 +54,37 @@ h1 {
 #contact-section img {
 	max-width: 30px;
 	max-height: 30px;
+  align-items: center;
+}
+.circle {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: white;
+  align-self: center;
+}
+.circle img {
+  align-content: center;
+  align-items: center; 
+}
+#social {
+  align-content: center;
+  align-items: center;
+  background-color: #a26769;
+}
+#social img {
+  height: 30px;
+  width: 30px;
+  align-items: center;
+  top: 50%;
+  padding-top:8px;
+}
+#socials {
+	text-align: center;
+	margin-left: auto; 
+	margin-right: auto;  
+}
+#songs {
+  margin-left: auto; 
+	margin-right: auto;
 }
