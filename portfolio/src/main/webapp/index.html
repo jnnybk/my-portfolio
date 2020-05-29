@@ -1,39 +1,63 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title>My Portfolio</title>
 		<link rel="stylesheet" href="style.css">
 		<script src="script.js"></script>
 	</head>
-	<body>
+
+	<body class="upper-section">
 		<div id="content">
-			<h1>Jenny's Portfolio</h1>
+      <section>
+        <h1>Jenny Baik</h1>
 
-			<table>
-				<th onclick="Toggle('main-section')">home</th>
-				<th onclick="Toggle('about-section')">about me</th>
-				<th onclick="Toggle('contact-section')">contact me</th>
-			</table>
+        <table id="menu">
+          <th onclick="Toggle('main-section')">home</th>
+          <th onclick="Toggle('about-section')">about me</th>
+          <th onclick="Toggle('contact-section')">contact me</th>
+        </table>
+      </section>
 
-				
-			<div id="main-section">
-				<img id="headshot" src="/images/Headshot_Jenny.JPG" alt="Image of me."/>
-				<p>Click here to see a random fact about me!:</p>
-				<button onclick="addRandomGreeting()">Hello</button>
-				<div id="greeting-container"></div>
-			</div>
+      <section>
+        <div  id="contact-section">
+          <p>temporary text here, probably for comment section</p>
+        </div>
 
-			<div id="contact-section">
-				<button link="https://www.instagram.com/waikandbaik/">Visit my food instagram!</button>
-				<button link="https://www.linkedin.com/jennybaik206">Connect with me on LinkedIn!</button>
-				<button link="mailto:baikj@google.com">Email me!</button>
-			</div>
+        <div id="main-section">
+          <img id="headshot" src="/images/Headshot_Jenny.JPG" alt="Image of me."/>
+        </div>
 
-			<div id="about-section">
-				<p>I am an incoming junior at the University of Florida studying Computer Science and Piano Performance. </p>
-			</div>
-	
+        <div id="about-section">
+          <p>Jenny Baik is an aspiring software engineer and a rising junior at the University of Florida. </p>
+          <br/>
+          <h3>Some of her favorite moments!</h3>
+            <ul>
+              <li>Learning how to make Japanese cheesecake without the sour cream mixture separating</li>
+              <li>Thanksgiving of 2019 - Friendsgiving (Food) Party where she made BBQ chicken sliders from scratch</li>
+              <li>Meeting fellow CS interns over community chats</li>
+            </ul>
+          <h3>Songs that she's currently listening to!</h3>
+            <table id="songs">
+              <th><a style="color: #4a4e69;text-decoration:none;" href="https://youtu.be/rEGOihjqO9w">Rach's 2nd</a></th>
+              <th><a style="color: #4a4e69;text-decoration:none;" href="https://youtu.be/cdlvLZqT3Ok">Tunnel of Love</a></th>
+              <th><a style="color: #4a4e69;text-decoration:none;" href="https://youtu.be/29ycT6fA-Rs">Mayday</a></th>
+            </table>
+          <h3><a style="color: #4a4e69;text-decoration:none;" href="/images/Jenny_Baik_Resume.pdf">Click for Resume!</a></h3>
+        </div>
+      </section>
     </div>
-  </body>
+
+    <section id="social">
+      <div>
+        <table id="socials">
+          <th><div class="circle"><img src="/images/glyph-logo_May2016.png"><a href="https://www.instagram.com/waikandbaik/"/></img></div></th>
+          <th><div class="circle"><img style="width: 35px;" src="/images/LI-In-Bug.png"><a href="https://www.linkedin.com/in/jennybaik206"/></img></div></th>
+          <th><div class="circle"><img src="/images/GitHub-Mark-120px-plus.png"><a href="https://github.com/jnnybk"/></img></div></th>
+        </table>
+      </div>
+    <section>
+	</body>
+
 </html>

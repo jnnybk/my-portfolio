@@ -15,26 +15,13 @@
 function setVisibility(currentValue, idName) {
 	if (idName === currentValue) {
 		document.getElementById(currentValue).style.display = "block";
-	} else {
+} else {
 		document.getElementById(currentValue).style.display = "none";
 	}
 }
 function Toggle(idName) {
-	const sectionList = [ 'contact-section', 'about-section', 'main-section'];
-	for(const section of sectionList) {
+	const sectionList = ['contact-section', 'about-section', 'main-section'];
+	for (const section of sectionList) {
 		setVisibility(section, idName);
 	}
-
-}
-
-
-
-function addRandomGreeting() {
-  const greetings =
-    ['I speak Korean and English!', 'I play two instruments: violin and piano!', 'My favorite foods are: pizza, icecream, french fries, and watermelon!', 'I am left-handed!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
 }
