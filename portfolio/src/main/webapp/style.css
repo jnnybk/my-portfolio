@@ -8,52 +8,52 @@
   background-color: rgb(242, 233, 228);
 }
 #headshot {
-	width: 200px;
-	min-height: 200px;
+  width: 200px;
+  min-height: 200px;
 }
 #main-section {
-	display: block;
+  display: block;
 }
 #contact-section {
   display: none;
 }
 #about-section {
-	display: none;
+  display: none;
 }
 body {
-	color: rgb(34, 34, 59);
+  color: rgb(34, 34, 59);
   height: 100%;
   background-color: #4a4e69;
 }
 #menu {
-	color: rgb(201, 173, 167);
-	text-align: center;
-	margin-left: auto; 
-	margin-right: auto;
+  color: rgb(201, 173, 167);
+  text-align: center;
+  margin-left: auto; 
+  margin-right: auto;
 }
 th {
-	color: #4a4e69;
-	padding: 15px;
+  color: #4a4e69;
+  padding: 15px;
 }
 th:hover { 
-	color: white;
-	cursor: grab;
+  color: white;
+  cursor: grab;
 }
 * {
-	text-align: center;
-	vertical-align: center;
-	font-family: 'Open Sans';
+  text-align: center;
+  vertical-align: center;
+  font-family: 'Open Sans';
 }
 *::selection {
-	background-color: #a26769;
-	color:  white;
+  background-color: #a26769;
+  color:  white;
 }
 h1 {
-	font-family: 'Caveat', cursive;
+  font-family: 'Caveat', cursive;
 }
 #contact-section img {
-	max-width: 30px;
-	max-height: 30px;
+  max-width: 30px;
+  max-height: 30px;
   align-items: center;
 }
 .circle {
@@ -80,11 +80,11 @@ h1 {
   padding-top:8px;
 }
 #socials {
-	text-align: center;
-	margin-left: auto; 
-	margin-right: auto;  
+  text-align: center;
+  margin-left: auto; 
+  margin-right: auto;  
 }
 #songs {
   margin-left: auto; 
-	margin-right: auto;
+  margin-right: auto;
 }
