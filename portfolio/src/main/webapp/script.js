@@ -25,23 +25,6 @@ function Toggle(idName) {
 		setVisibility(section, idName);
 	}
 }
-let index = 0; 		
-function nextImg() {
-  const imgFilePath = "/images/album/";
-  const time = 3000;
-  
-  const images = [ imgFilePath + "LoveIsABeautifulThing_Vulfpeck.jpg", imgFilePath + "Mayday_Crush.jpg", imgFilePath + "OjitosSonados_Ramona.jpg", imgFilePath + "Rach2_AnnaFedorova.jpg", imgFilePath + "SeTeOlvida_Ramona.jpg", imgFilePath + "TunnelOfLove_haroinfather.jpg"];
-  document.albumSlide.src = images[index];
-
-  if (index < images.length - 1) {
-    console.log( "index is: " + index);
-    index++; 
-	} else {
-    index = 0;
-  }
-  setTimeout("nextImg()", time);
-}
-window.onload = nextImg;
 async function getContent() {
   const response = await fetch('/data');
   const quote = await response.text();
