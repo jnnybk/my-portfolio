@@ -25,20 +25,31 @@ function Toggle(idName) {
 		setVisibility(section, idName);
 	}
 }
-let index = 0; 		
-function nextImg() {
-  const imgFilePath = "/images/album/";
-  const time = 3000;
-  
-  const images = [ imgFilePath + "LoveIsABeautifulThing_Vulfpeck.jpg", imgFilePath + "Mayday_Crush.jpg", imgFilePath + "OjitosSonados_Ramona.jpg", imgFilePath + "Rach2_AnnaFedorova.jpg", imgFilePath + "SeTeOlvida_Ramona.jpg", imgFilePath + "TunnelOfLove_haroinfather.jpg"];
-  document.albumSlide.src = images[index];
+const imgFilePath = "/images/album/";
+const images = [ imgFilePath + "LoveIsABeautifulThing_Vulfpeck.jpg", imgFilePath + "Mayday_Crush.jpg", imgFilePath + "OjitosSonados_Ramona.jpg", imgFilePath + "Rach2_AnnaFedorova.jpg", imgFilePath + "SeTeOlvida_Ramona.jpg", imgFilePath + "TunnelOfLove_haroinfather.jpg"];
+var time;
+let index = 0;
 
-  if (index < images.length - 1) {
-    console.log( "index is: " + index);
-    index++; 
-	} else {
-    index = 0;
-  }
-  setTimeout("nextImg()", time);
+window.onload = () => {
+  document.albumSlide.src = images[0];
 }
-window.onload = nextImg;
+
+function changeImg(isPrev = false) {
+
+  if ( isPrev ) {
+    if ( index == 0 ) {
+      index = images.length - 1;
+    } else {
+      index--;
+    }
+    console.log("prev was clicked: " + index);
+  } else {
+    if ( index == images.length - 1 ) {
+      index = 0;
+    } else {
+      index++; 
+    }
+    console.log("next was clicked: " + index);
+  }
+  document.albumSlide.src = images[index];
+}
