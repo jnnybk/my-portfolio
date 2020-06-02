@@ -25,3 +25,8 @@ function Toggle(idName) {
 		setVisibility(section, idName);
 	}
 }
+async function getContent() {
+  const response = await fetch('/data');
+  const quote = await response.text();
+  document.getElementById('quote-container').innerText = quote;
+}
