@@ -77,6 +77,7 @@ function changeImg(isPrev = false) {
   }
   document.albumSlide.src = images[index]["filePath"];
   document.getElementById("wrapper").href = images[index]["link"];
+}
 async function getContent() {
   const response = await fetch('/data');
   const quote = await response.text();
