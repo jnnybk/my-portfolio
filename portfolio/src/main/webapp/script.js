@@ -26,16 +26,40 @@ function Toggle(idName) {
 	}
 }
 const imgFilePath = "/images/album/";
-const images = [ imgFilePath + "LoveIsABeautifulThing_Vulfpeck.jpg", imgFilePath + "Mayday_Crush.jpg", imgFilePath + "OjitosSonados_Ramona.jpg", imgFilePath + "Rach2_AnnaFedorova.jpg", imgFilePath + "SeTeOlvida_Ramona.jpg", imgFilePath + "TunnelOfLove_haroinfather.jpg"];
+const images = [ 
+  {
+    "filePath": imgFilePath + "LoveIsABeautifulThing_Vulfpeck.jpg",
+    "link": "https://youtu.be/x0vgMl6n7m0",
+  },
+  {
+    "filePath": imgFilePath + "Mayday_Crush.jpg", 
+    "link": "https://youtu.be/29ycT6fA-Rs",
+  },
+  {
+    "filePath": imgFilePath + "OjitosSonados_Ramona.jpg", 
+    "link": "https://youtu.be/-lJzIUniJOE",
+  },
+  {
+    "filePath": imgFilePath + "Rach2_AnnaFedorova.jpg",
+    "link": "https://youtu.be/rEGOihjqO9w",
+  },
+  {
+    "filePath": imgFilePath + "SeTeOlvida_Ramona.jpg",
+    "link": "https://youtu.be/PIndisFYGB8",
+  },
+  {
+    "filePath": imgFilePath + "TunnelOfLove_haroinfather.jpg",
+    "link": "https://youtu.be/cdlvLZqT3Ok",
+  }];
 var time;
 let index = 0;
 
 window.onload = () => {
-  document.albumSlide.src = images[0];
+  document.albumSlide.src = images[0]["filePath"];
+  document.getElementById("wrapper").href = images[0]["link"];
 }
 
 function changeImg(isPrev = false) {
-
   if ( isPrev ) {
     if ( index == 0 ) {
       index = images.length - 1;
@@ -51,5 +75,6 @@ function changeImg(isPrev = false) {
     }
     console.log("next was clicked: " + index);
   }
-  document.albumSlide.src = images[index];
+  document.albumSlide.src = images[index]["filePath"];
+  document.getElementById("wrapper").href = images[index]["link"];
 }
