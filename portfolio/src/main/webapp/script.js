@@ -11,20 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-function setVisibility(currentValue, idName) {
-	if (idName === currentValue) {
-		document.getElementById(currentValue).style.display = 'block';
-} else {
-		document.getElementById(currentValue).style.display = 'none';
-	}
-}
-function Toggle(idName) {
-	const sectionList = ['contact-section', 'about-section', 'main-section'];
-	for (const section of sectionList) {
-		setVisibility(section, idName);
-	}
-}
 const imgFilePath = '/images/album/';
 const images = [ 
   {
@@ -51,30 +37,55 @@ const images = [
     'filePath': `${imgFilePath}TunnelOfLove_haroinfather.jpg`,
     'link': 'https://youtu.be/cdlvLZqT3Ok',
   }];
-var time;
-let index = 0;
 
+class ImageAnchors {
+  constructor() {
+    this.index = 0;
+    document.getElementById('prev').addEventListener('click', () => {
+      this.changeImg(true);
+    });
+    document.getElementById('next').addEventListener('click', () => {
+      this.changeImg(false);
+    });
+  }
+  changeImg(isPrev = false) {
+    if ( isPrev ) {
+      if ( this.index == 0 ) {
+        this.index = images.length - 1;
+      } else {
+        this.index--;
+      }
+    } else {
+      if ( this.index == images.length - 1 ) {
+        this.index = 0;
+      } else {
+        this.index++;
+      }
+    }
+    document.albumSlide.src = images[this.index]['filePath'];
+    document.getElementById('wrapper').href = images[this.index]['link'];
+  }
+
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const imgAnchor = new ImageAnchors();
+});
 window.onload = () => {
   document.albumSlide.src = images[0]['filePath'];
   document.getElementById('wrapper').href = images[0]['link'];
 }
-
-function changeImg(isPrev = false) {
-  if ( isPrev ) {
-    if ( index == 0 ) {
-      index = images.length - 1;
-    } else {
-      index--;
-    }
+function setVisibility(currentValue, idName) {
+  if (idName === currentValue) {
+    document.getElementById(currentValue).style.display = "block";
   } else {
-    if ( index == images.length - 1 ) {
-      index = 0;
-    } else {
-      index++; 
-    }
+    document.getElementById(currentValue).style.display = "none";
   }
-  document.albumSlide.src = images[index]['filePath'];
-  document.getElementById('wrapper').href = images[index]['link'];
+}
+function Toggle(idName) {
+  const sectionList = ['contact-section', 'about-section', 'main-section'];
+  for (const section of sectionList) {
+    setVisibility(section, idName);
+	}
 }
 async function getContent() {
   const response = await fetch('/data');
