@@ -14,9 +14,9 @@
 
 function setVisibility(currentValue, idName) {
 	if (idName === currentValue) {
-		document.getElementById(currentValue).style.display = "block";
+		document.getElementById(currentValue).style.display = 'block';
 } else {
-		document.getElementById(currentValue).style.display = "none";
+		document.getElementById(currentValue).style.display = 'none';
 	}
 }
 function Toggle(idName) {
@@ -25,38 +25,38 @@ function Toggle(idName) {
 		setVisibility(section, idName);
 	}
 }
-const imgFilePath = "/images/album/";
+const imgFilePath = '/images/album/';
 const images = [ 
   {
-    "filePath": imgFilePath + "LoveIsABeautifulThing_Vulfpeck.jpg",
-    "link": "https://youtu.be/x0vgMl6n7m0",
+    'filePath': `${imgFilePath}LoveIsABeautifulThing_Vulfpeck.jpg`,
+    'link': 'https://youtu.be/x0vgMl6n7m0',
   },
   {
-    "filePath": imgFilePath + "Mayday_Crush.jpg", 
-    "link": "https://youtu.be/29ycT6fA-Rs",
+    'filePath': `${imgFilePath}Mayday_Crush.jpg`, 
+    'link': 'https://youtu.be/29ycT6fA-Rs',
   },
   {
-    "filePath": imgFilePath + "OjitosSonados_Ramona.jpg", 
-    "link": "https://youtu.be/-lJzIUniJOE",
+    'filePath': `${imgFilePath}OjitosSonados_Ramona.jpg`, 
+    'link': 'https://youtu.be/-lJzIUniJOE',
   },
   {
-    "filePath": imgFilePath + "Rach2_AnnaFedorova.jpg",
-    "link": "https://youtu.be/rEGOihjqO9w",
+    'filePath': `${imgFilePath}Rach2_AnnaFedorova.jpg`,
+    'link': 'https://youtu.be/rEGOihjqO9w',
   },
   {
-    "filePath": imgFilePath + "SeTeOlvida_Ramona.jpg",
-    "link": "https://youtu.be/PIndisFYGB8",
+    'filePath': `${imgFilePath}SeTeOlvida_Ramona.jpg`,
+    'link': 'https://youtu.be/PIndisFYGB8',
   },
   {
-    "filePath": imgFilePath + "TunnelOfLove_haroinfather.jpg",
-    "link": "https://youtu.be/cdlvLZqT3Ok",
+    'filePath': `${imgFilePath}TunnelOfLove_haroinfather.jpg`,
+    'link': 'https://youtu.be/cdlvLZqT3Ok',
   }];
 var time;
 let index = 0;
 
 window.onload = () => {
-  document.albumSlide.src = images[0]["filePath"];
-  document.getElementById("wrapper").href = images[0]["link"];
+  document.albumSlide.src = images[0]['filePath'];
+  document.getElementById('wrapper').href = images[0]['link'];
 }
 
 function changeImg(isPrev = false) {
@@ -66,17 +66,15 @@ function changeImg(isPrev = false) {
     } else {
       index--;
     }
-    console.log("prev was clicked: " + index);
   } else {
     if ( index == images.length - 1 ) {
       index = 0;
     } else {
       index++; 
     }
-    console.log("next was clicked: " + index);
   }
-  document.albumSlide.src = images[index]["filePath"];
-  document.getElementById("wrapper").href = images[index]["link"];
+  document.albumSlide.src = images[index]['filePath'];
+  document.getElementById('wrapper').href = images[index]['link'];
 }
 async function getContent() {
   const response = await fetch('/data');
