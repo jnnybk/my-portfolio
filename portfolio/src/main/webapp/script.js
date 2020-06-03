@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const imgAnchor = new ImageAnchors();
   document.albumSlide.src = images[0].filePath;
   document.getElementById('wrapper').href = images[0].link;
+  getJsonData();
 });
 function setVisibility(currentValue, idName) {
   if (idName === currentValue) {
@@ -90,11 +91,10 @@ async function getContent() {
   const quote = await response.text();
   document.getElementById('quote-container').innerText = quote;
 }
-function getJsonData() {
-  fetch('/data').then(response => response.json()).then((stringData) => {
-    console.log("stringData: " + stringData);
-    for (let comment of stringData) {
-      document.getElementById('comments').textContent += comment;
-    }
-  });
+async function getJsonData() {
+  const response = await fetch('/data');
+  const comments = await response.json();
+  for (let comment of comments) {
+    document.getElementById('comments').textContent += comment;
+  }
 }
