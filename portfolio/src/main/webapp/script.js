@@ -90,3 +90,11 @@ async function getContent() {
   const quote = await response.text();
   document.getElementById('quote-container').innerText = quote;
 }
+function getJsonData() {
+  fetch('/data').then(response => response.json()).then((stringData) => {
+    console.log("stringData: " + stringData);
+    for (let comment of stringData) {
+      document.getElementById('comments').textContent += comment;
+    }
+  });
+}
