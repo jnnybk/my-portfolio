@@ -50,13 +50,13 @@ class ImageAnchors {
   }
   changeImg(isPrev = false) {
     if ( isPrev ) {
-      if ( this.index == 0 ) {
+      if ( this.index === 0 ) {
         this.index = images.length - 1;
       } else {
         this.index--;
       }
     } else {
-      if ( this.index == images.length - 1 ) {
+      if ( this.index === images.length - 1 ) {
         this.index = 0;
       } else {
         this.index++;
