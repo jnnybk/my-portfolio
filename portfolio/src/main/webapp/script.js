@@ -85,7 +85,7 @@ function Toggle(idName) {
   const sectionList = ['contact-section', 'about-section', 'main-section'];
   for (const section of sectionList) {
     setVisibility(section, idName);
-	}
+  }
 }
 async function getContent() {
   const response = await fetch('/data');
