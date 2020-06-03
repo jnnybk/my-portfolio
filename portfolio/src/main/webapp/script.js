@@ -94,7 +94,7 @@ async function getContent() {
 async function getJsonData() {
   const response = await fetch('/data');
   const comments = await response.json();
-  for (let comment of comments) {
+  for (const comment of comments) {
     document.getElementById('comments').textContent += comment;
   }
 }
