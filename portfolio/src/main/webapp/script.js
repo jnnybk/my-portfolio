@@ -11,8 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 const imgFilePath = '/images/album';
-const images = [ 
+const images = [
   {
     filePath: `${imgFilePath}/LoveIsABeautifulThing_Vulfpeck.jpg`,
     link: 'https://youtu.be/x0vgMl6n7m0',
@@ -48,6 +49,7 @@ class ImageAnchors {
       this.changeImg(false);
     });
   }
+
   changeImg(isPrev = false) {
     if ( isPrev ) {
       if ( this.index === 0 ) {
@@ -65,14 +67,16 @@ class ImageAnchors {
     document.albumSlide.src = images[this.index].filePath;
     document.getElementById('wrapper').href = images[this.index].link;
   }
-
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   const imgAnchor = new ImageAnchors();
   document.albumSlide.src = images[0].filePath;
   document.getElementById('wrapper').href = images[0].link;
+  
   getComments();
 });
+
 function setVisibility(currentValue, idName) {
   if (idName === currentValue) {
     document.getElementById(currentValue).style.display = "block";
@@ -80,23 +84,22 @@ function setVisibility(currentValue, idName) {
     document.getElementById(currentValue).style.display = "none";
   }
 }
+
 function Toggle(idName) {
   const sectionList = ['contact-section', 'about-section', 'main-section'];
+
   for (const section of sectionList) {
     setVisibility(section, idName);
   }
 }
-async function getContent() {
-  const response = await fetch('/data');
-  const quote = await response.text();
-  document.getElementById('quote-container').innerText = quote;
-}
+
 async function getComments() {
   const response = await fetch('/data');
   const comments = await response.json();
+
   for (const comment of comments) {
     const child = document.createElement('p');
-    child.textContent = comment;
+    child.textContent = comment.userName + ' ' + comment.userComment;
     document.getElementById('comments').appendChild(child);
   }
 }
