@@ -59,8 +59,6 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    response.setContentType("text/html;");
-    
     String userName = request.getParameter("user_name");
     String userComment = request.getParameter("user_comment");
 
@@ -69,12 +67,14 @@ public class DataServlet extends HttpServlet {
     } 
     if (userComment == null || userComment.isEmpty() ) {
       response.getWriter().println("Comment cannot be left blank.");
-    } else {
-      Entity commentEntity = new Entity("Comment");
-      commentEntity.setProperty("userName", userName);
-      commentEntity.setProperty("userComment", userComment);
-      datastore.put(commentEntity);
+      return;
     }
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("userName", userName);
+    commentEntity.setProperty("userComment", userComment);
+    datastore.put(commentEntity);
+    
     response.sendRedirect("/index.html");
   }
 
