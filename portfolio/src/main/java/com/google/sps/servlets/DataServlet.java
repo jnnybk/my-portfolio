@@ -31,9 +31,6 @@ public class DataServlet extends HttpServlet {
   @Override
   public void init() {
     messages = new ArrayList<String>();
-    messages.add("today is Wednesday");
-    messages.add("chick fil a is delicious");
-    messages.add("watermelon is the best fruit");
   }
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -41,5 +38,13 @@ public class DataServlet extends HttpServlet {
     String json = gson.toJson(messages);
     response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("text/html;");
+    String userName = request.getParameter("user_name");
+    String userComment = request.getParameter("user_comment");
+    messages.add(userName + " said, \"" + userComment + "\".");
+    response.sendRedirect("/index.html");
   }
 }

@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const imgAnchor = new ImageAnchors();
   document.albumSlide.src = images[0].filePath;
   document.getElementById('wrapper').href = images[0].link;
-  getJsonData();
+  getComments();
 });
 function setVisibility(currentValue, idName) {
   if (idName === currentValue) {
@@ -91,10 +91,13 @@ async function getContent() {
   const quote = await response.text();
   document.getElementById('quote-container').innerText = quote;
 }
-async function getJsonData() {
+async function getComments() {
   const response = await fetch('/data');
   const comments = await response.json();
   for (const comment of comments) {
-    document.getElementById('comments').textContent += comment;
+    console.log("line 98 of script.js: " + comment);
+    const child = document.createElement('p');
+    child.textContent = comment;
+    document.getElementById('comments').appendChild(child);
   }
 }

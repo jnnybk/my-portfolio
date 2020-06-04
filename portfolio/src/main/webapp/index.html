@@ -10,20 +10,35 @@
 
 	<body class="upper-section">
 		<div id="content">
-      <section>
-        
-        <h1>Jenny Baik</h1>
 
+      <section>
+        <h1>Jenny Baik</h1>
         <table id="menu">
           <th onclick="Toggle('main-section')">home</th>
           <th onclick="Toggle('about-section')">about me</th>
           <th onclick="Toggle('contact-section')">contact me</th>
         </table>
+        <form action="/data" method="POST">
+          <ul>
+            <li>    
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="user_name">
+            </li>
+            <li>
+              <label for="comment">Comment:</label>
+              <textarea id="comment" type="text" name="user_comment"></textarea>
+            </li>
+            <li>
+              <input type="submit" />
+            </li>
+          </ul>
+        </form>
+        <h3 id="comments">Comments: </h3>
       </section>
 
       <section>
         <div  id="contact-section">
-          <p id="comments"></p>
+          <p>temporary section</p>
         </div>
 
         <div id="main-section">
