@@ -95,7 +95,6 @@ async function getComments() {
   const response = await fetch('/data');
   const comments = await response.json();
   for (const comment of comments) {
-    console.log("line 98 of script.js: " + comment);
     const child = document.createElement('p');
     child.textContent = comment;
     document.getElementById('comments').appendChild(child);

@@ -32,6 +32,7 @@ public class DataServlet extends HttpServlet {
   public void init() {
     messages = new ArrayList<String>();
   }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Gson gson = new Gson();
@@ -39,12 +40,21 @@ public class DataServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     String userName = request.getParameter("user_name");
     String userComment = request.getParameter("user_comment");
-    messages.add(userName + " said, \"" + userComment + "\".");
+    if ( userName == null || userName.isEmpty() ) {
+      userName = "Anonymous";
+    } 
+    if (userComment == null || userComment.isEmpty() ) {
+      response.getWriter().println("Comment cannot be left blank.");
+    } else {
+      messages.add(userName + " said, \"" + userComment + "\".");
+    }
     response.sendRedirect("/index.html");
   }
+
 }
