@@ -18,9 +18,11 @@ public final class Comment {
   
   private final String userName;
   private final String userComment;
+  private final long timestamp;
 
-  public Comment(String userName, String userComment) {
+  public Comment(String userName, String userComment, long timestamp) {
     this.userName = userName;
     this.userComment = userComment;
+    this.timestamp = timestamp;
   }
 }
