@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.albumSlide.src = images[0].filePath;
   document.getElementById('wrapper').href = images[0].link;
   
-  getComments();
+  displayComments();
 });
 
 function setVisibility(currentValue, idName) {
@@ -93,13 +93,48 @@ function Toggle(idName) {
   }
 }
 
-async function getComments() {
-  const response = await fetch('/data');
+function createCommentElement(comment) {
+  const commentElement = document.createElement('li');
+  commentElement.className = 'comment';
+
+  const dataElement = document.createElement('span');
+  dataElement.innerText = comment.userName + ' ' + comment.userComment;
+
+  const deleteButtonElement = document.createElement('button');
+  deleteButtonElement.innerText = 'Delete';
+  deleteButtonElement.addEventListener('click', () => {
+    deleteComment(comment);
+    commentElement.remove();
+  });
+
+  commentElement.appendChild(dataElement);
+  commentElement.appendChild(deleteButtonElement);
+  return commentElement;
+}
+async function displayComments() {
+  maxNumberOfComments = document.getElementById('maxNum').value;
+  const params = new URLSearchParams();
+  params.append('max_num_of_contents', maxNumberOfComments);
+  const response = await fetch(`/data?max_num_of_comments=${maxNumberOfComments}`);
   const comments = await response.json();
 
-  for (const comment of comments) {
-    const child = document.createElement('p');
-    child.textContent = comment.userName + ' ' + comment.userComment;
-    document.getElementById('comments').appendChild(child);
+  commentElement = document.getElementById('comments');
+  while (commentElement.lastElementChild) {
+    commentElement.removeChild(commentElement.lastElementChild);
   }
+
+  const commentListElement = document.getElementById('comments');
+  comments.forEach((comment) => {
+    commentListElement.appendChild(createCommentElement(comment));
+  });
 }
+
+function deleteComment(comment) {
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+  fetch('/delete-data', {method: 'POST', body: params});
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('maxNum').addEventListener('click', displayComments);
+});

@@ -30,38 +30,35 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.Comment;
 import java.lang.Integer;
+import com.google.appengine.api.datastore.FetchOptions;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private int maxNumOfComments = 0;
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    try {
+      maxNumOfComments = Integer.parseInt(request.getParameter("max_num_of_comments"));
+    } catch (Exception e) {
+      maxNumOfComments = 10;
+    }
 
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    int maxNumberOfComments = -1;
-    try {
-      maxNumberOfComments = Integer.parseInt(request.getParameter("maxNumberOfComments"));
-    } catch (Exception e) {
-      maxNumberOfComments = 10;
-    }
-
     List<Comment> comments = new ArrayList<>();
-    int index = 0;
-    for (Entity entity: results.asIterable()) {
+    for (Entity entity: results.asIterable(FetchOptions.Builder.withLimit(maxNumOfComments))) {
       String userName = (String) entity.getProperty("userName");
       String userComment = (String) entity.getProperty("userComment");
       long timestamp = (long) entity.getProperty("timestamp");
+      long id = (long) entity.getKey().getId();
 
-      Comment comment = new Comment(userName, userComment, timestamp);
+      Comment comment = new Comment(userName, userComment, timestamp, id);
       comments.add(comment);
-
-      index++;
-      if (maxNumberOfComments == index)
-        break;
     }
     Gson gson = new Gson();
     String json = gson.toJson(comments);
