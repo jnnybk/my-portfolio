@@ -22,27 +22,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/home")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/login")
+public class AuthenticateServlet extends HttpServlet {
 
+  private boolean isUserLoggedIn;
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
+    response.setContentType("application/json");
 
     UserService userService = UserServiceFactory.getUserService();
-    if (userService.isUserLoggedIn()) {
+    isUserLoggedIn = userService.isUserLoggedIn();
+    if (isUserLoggedIn) {
       String userEmail = userService.getCurrentUser().getEmail();
       String urlToRedirectAfterLogOut = "/";
       String logoutUrl = userService.createLogoutURL(urlToRedirectAfterLogOut);
+      
+      String json = "{";
+      json += "\"isUserLoggedIn\": "; 
+      json += "\"" + isUserLoggedIn + "\"";
+      json += "}";
 
-      response.getWriter().println("<p>Hi " + userEmail + "!</p>");
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+      response.getWriter().println(json);
     } else {
       String urlToRedirectAfterLogIn = "/";
       String loginUrl = userService.createLoginURL(urlToRedirectAfterLogIn);
 
-      response.getWriter().println("<p>Not logged in.</p");
-      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+      String json = "{" + 
+        "\"isUserLoggedIn\":\"" + isUserLoggedIn + 
+        "}";
+      response.getWriter().println(json);
+      response.sendRedirect("/");
     }
   }
 }

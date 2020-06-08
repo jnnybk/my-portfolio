@@ -137,4 +137,20 @@ function deleteComment(comment) {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('maxNum').addEventListener('click', displayComments);
+  checkLoginStatus();
 });
+
+function toggleCommentsForm() {
+  
+}
+
+async function checkLoginStatus() {
+  const response = await fetch('/login');
+  const loginStatus = await response.json();
+
+  if (loginStatus.isUserLoggedIn === 'true') {
+    document.getElementById('comment-form').style.display = "block";
+  } else {
+    document.getElementById('comment-form').style.display = "none";
+  }
+}
