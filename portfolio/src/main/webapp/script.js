@@ -128,15 +128,5 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function toggleMode() {
-  let element = document.body;
-  element.classList.toggle("dark-mode");
-
-  let anchors = document.getElementsByTagName("a");     
-  for (i = 0; i < anchors.length; i++) { 
-    if (anchors[i].style.color === "white") {
-      anchors[i].style.color = "rgb(23, 28, 40)";  
-    } else {
-      anchors[i].style.color = "white";  
-    }
-  }
+  document.body.classList.toggle("dark-mode");
 }
