@@ -26,29 +26,40 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.Comment;
+import java.lang.Integer;
+import com.google.appengine.api.datastore.FetchOptions;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private int maxNumOfComments = 0;
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment");
+    try {
+      maxNumOfComments = Integer.parseInt(request.getParameter("max_num_of_comments"));
+    } catch (Exception e) {
+      maxNumOfComments = 10;
+    }
 
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> comments = new ArrayList<>();
-    for (Entity entity: results.asIterable()) {
+    for (Entity entity: results.asIterable(FetchOptions.Builder.withLimit(maxNumOfComments))) {
       String userName = (String) entity.getProperty("userName");
       String userComment = (String) entity.getProperty("userComment");
+      long timestamp = (long) entity.getProperty("timestamp");
+      long id = (long) entity.getKey().getId();
 
-      Comment comment = new Comment(userName, userComment);
+      Comment comment = new Comment(userName, userComment, timestamp, id);
       comments.add(comment);
     }
-
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     response.setContentType("application/json;");
@@ -61,6 +72,7 @@ public class DataServlet extends HttpServlet {
 
     String userName = request.getParameter("user_name");
     String userComment = request.getParameter("user_comment");
+    long timestamp = System.currentTimeMillis();
 
     if ( userName == null || userName.isEmpty() ) {
       userName = "Anonymous";
@@ -73,6 +85,7 @@ public class DataServlet extends HttpServlet {
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("userName", userName);
     commentEntity.setProperty("userComment", userComment);
+    commentEntity.setProperty("timestamp", timestamp);
     datastore.put(commentEntity);
     
     response.sendRedirect("/index.html");
