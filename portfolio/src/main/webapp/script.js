@@ -77,22 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
   displayComments();
 });
 
-function setVisibility(currentValue, idName) {
-  if (idName === currentValue) {
-    document.getElementById(currentValue).style.display = "block";
-  } else {
-    document.getElementById(currentValue).style.display = "none";
-  }
-}
-
-function Toggle(idName) {
-  const sectionList = ['contact-section', 'about-section', 'main-section'];
-
-  for (const section of sectionList) {
-    setVisibility(section, idName);
-  }
-}
-
 function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
@@ -138,3 +122,21 @@ function deleteComment(comment) {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('maxNum').addEventListener('click', displayComments);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('mode').addEventListener('click', toggleMode);
+})
+
+function toggleMode() {
+  let element = document.body;
+  element.classList.toggle("dark-mode");
+
+  let anchors = document.getElementsByTagName("a");     
+  for (i = 0; i < anchors.length; i++) { 
+    if (anchors[i].style.color === "white") {
+      anchors[i].style.color = "rgb(23, 28, 40)";  
+    } else {
+      anchors[i].style.color = "white";  
+    }
+  }
+}
