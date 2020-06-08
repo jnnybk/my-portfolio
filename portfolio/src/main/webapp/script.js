@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function createCommentElement(comment) {
   const commentElement = document.createElement('li');
-  commentElement.className = 'comment';
+  commentElement.className = 'comment-item';
 
   const dataElement = document.createElement('span');
   dataElement.innerText = comment.userName + ' ' + comment.userComment;
