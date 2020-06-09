@@ -18,12 +18,14 @@ public final class Comment {
   
   private final String userName;
   private final String userComment;
+  private final String userEmail;
   private final long timestamp;
   private final long id;
 
-  public Comment(String userName, String userComment, long timestamp, long id) {
+  public Comment(String userName, String userComment, String userEmail, long timestamp, long id) {
     this.userName = userName;
     this.userComment = userComment;
+    this.userEmail = userEmail;
     this.timestamp = timestamp;
     this.id = id;
   }
