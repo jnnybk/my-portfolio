@@ -31,6 +31,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.Comment;
 import java.lang.Integer;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
@@ -54,10 +56,11 @@ public class DataServlet extends HttpServlet {
     for (Entity entity: results.asIterable(FetchOptions.Builder.withLimit(maxNumOfComments))) {
       String userName = (String) entity.getProperty("userName");
       String userComment = (String) entity.getProperty("userComment");
+      String userEmail = (String) entity.getProperty("userEmail");
       long timestamp = (long) entity.getProperty("timestamp");
       long id = (long) entity.getKey().getId();
 
-      Comment comment = new Comment(userName, userComment, timestamp, id);
+      Comment comment = new Comment(userName, userComment, userEmail, timestamp, id);
       comments.add(comment);
     }
     Gson gson = new Gson();
@@ -69,9 +72,14 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    UserService userService = UserServiceFactory.getUserService();
 
     String userName = request.getParameter("user_name");
     String userComment = request.getParameter("user_comment");
+    String userEmail = "";
+    if (userService.isUserLoggedIn()) {
+      userEmail = userService.getCurrentUser().getEmail();
+    }
     long timestamp = System.currentTimeMillis();
 
     if ( userName == null || userName.isEmpty() ) {
@@ -85,6 +93,7 @@ public class DataServlet extends HttpServlet {
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("userName", userName);
     commentEntity.setProperty("userComment", userComment);
+    commentEntity.setProperty("userEmail", userEmail);
     commentEntity.setProperty("timestamp", timestamp);
     datastore.put(commentEntity);
     

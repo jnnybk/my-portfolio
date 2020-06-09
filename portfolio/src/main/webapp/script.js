@@ -81,8 +81,17 @@ function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment-item';
 
-  const dataElement = document.createElement('span');
-  dataElement.innerText = comment.userName + ' ' + comment.userComment;
+  const commentUserNameElement = document.createElement('span');
+  commentUserNameElement.innerText = comment.userName + ':';
+  commentUserNameElement.className = 'comment-user-name';
+
+  const commentUserEmailElement = document.createElement('span');
+  commentUserEmailElement.innerText = comment.userEmail;
+  commentUserEmailElement.className = 'comment-user-email';
+
+  const commentContentElement = document.createElement('span');
+  commentContentElement.innerText = comment.userComment;
+  commentContentElement.className = 'comment-content';
 
   const deleteButtonElement = document.createElement('button');
   deleteButtonElement.innerText = 'Delete';
@@ -91,8 +100,10 @@ function createCommentElement(comment) {
     commentElement.remove();
   });
 
-  commentElement.appendChild(dataElement);
-  commentElement.appendChild(deleteButtonElement);
+  commentElement.appendChild(commentUserNameElement);
+  commentElement.appendChild(commentContentElement);
+  commentElement.appendChild(commentUserEmailElement);
+
   return commentElement;
 }
 async function displayComments() {
@@ -121,7 +132,19 @@ function deleteComment(comment) {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('maxNum').addEventListener('click', displayComments);
+  checkLoginStatus();
 });
+
+async function checkLoginStatus() {
+  const response = await fetch('/login');
+  const loginStatus = await response.json();
+
+  if (loginStatus === true) {
+    document.getElementById('comment-form').style.display = "block";
+  } else {
+    document.getElementById('comment-form').style.display = "none";
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('mode').addEventListener('click', toggleMode);
