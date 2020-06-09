@@ -135,10 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
   checkLoginStatus();
 });
 
-function toggleCommentsForm() {
-  
-}
-
 async function checkLoginStatus() {
   const response = await fetch('/login');
   const loginStatus = await response.json();

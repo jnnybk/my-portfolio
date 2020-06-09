@@ -7,15 +7,51 @@
 		<script src="script.js"></script>
 	</head>
 
-	<body class="upper-section">
+	<body class="entire-section fade-in">
 		<div id="content">
-      <section>
-        <h1>Jenny Baik</h1>
+      <section id="navbar">
         <table id="menu">
-          <th onclick="Toggle('main-section')">home</th>
-          <th onclick="Toggle('about-section')">about me</th>
-          <th onclick="Toggle('contact-section')">contact me</th>
+          <th><a href="#home">home</a></th>
+          <th><a href="#about">about</a></th>
+          <th><a href="#comment-section">chat</a></th>
+          <th><a href="#contact-section">contact</a></th>
+          <th><img id="mode" src="/images/day.png"/></th>
         </table>
+      </section>
+      <section>
+        <h1 id="home">Jenny Baik</h1>
+        <div id="main-section">
+          <img id="headshot" src="/images/Headshot_Jenny.JPG" alt="Image of me."/>
+        </div>        
+      </section>
+
+      <section>
+        <div  id="contact-section">
+          <p>temporary section</p>
+        </div>
+        
+        <div id="about">
+          <p>Jenny Baik is an aspiring software engineer and a rising junior at the University of Florida. </p>
+          <br/>
+          <h3>Some of her favorite moments!</h3>
+            <ul>
+              <li>Learning how to make Japanese cheesecake without the sour cream mixture separating</li>
+              <li>Thanksgiving of 2019 - Friendsgiving (Food) Party where she made BBQ chicken sliders from scratch</li>
+              <li>Meeting fellow CS interns over community chats</li>
+            </ul>
+          <h3>Songs that she's currently listening to!</h3>
+            <div> 
+              <button class="song-buttons" id="prev"><</button>
+              <a href= "" id="wrapper">
+                <img name="albumSlide" width="200" height="200" />
+              </a>
+              <button class="song-buttons" id="next">></button>
+            </div>
+          <h3><a href="/images/Jenny_Baik_Resume.pdf">Click for Resume!</a></h3>
+        </div>
+      </section>
+
+      <section id="comment-section">
         <form id="comment-form" action="/data" method="POST">
           <ul>
             <li>    
@@ -42,49 +78,15 @@
           <p id="comments">Comments: </p>
         </div>
       </section>
-
-      <section>
-        <div  id="contact-section">
-          <p>temporary section</p>
-        </div>
-        <div id="main-section">
-          <img id="headshot" src="/images/Headshot_Jenny.JPG" alt="Image of me."/>
-        </div>
-        <div id="about-section">
-          <p>Jenny Baik is an aspiring software engineer and a rising junior at the University of Florida. </p>
-          <br/>
-          <h3>Some of her favorite moments!</h3>
-            <ul>
-              <li>Learning how to make Japanese cheesecake without the sour cream mixture separating</li>
-              <li>Thanksgiving of 2019 - Friendsgiving (Food) Party where she made BBQ chicken sliders from scratch</li>
-              <li>Meeting fellow CS interns over community chats</li>
-            </ul>
-          <h3>Songs that she's currently listening to!</h3>
-            <div> 
-              <button class="song-buttons" id="prev"><</button>
-              <a href= "" id="wrapper">
-                <img name="albumSlide" width="200" height="200" />
-              </a>
-              <button class="song-buttons" id="next">></button>
-            </div>
-            <table id="songs">
-              <th><a style="color: #4a4e69;text-decoration:none;" href="https://youtu.be/rEGOihjqO9w">Rach's 2nd</a></th>
-              <th><a style="color: #4a4e69;text-decoration:none;" href="https://youtu.be/cdlvLZqT3Ok">Tunnel of Love</a></th>
-              <th><a style="color: #4a4e69;text-decoration:none;" href="https://youtu.be/29ycT6fA-Rs">Mayday</a></th>
-            </table>
-          <h3><a style="color: #4a4e69;text-decoration:none;" href="/images/Jenny_Baik_Resume.pdf">Click for Resume!</a></h3>
+      <section id="contact-section">
+        <div>
+          <table id="socials">
+            <th><a href="https://www.instagram.com/waikandbaik/"><img src="/images/instagram.png"/></a></th>
+            <th><a href="https://www.linkedin.com/in/jennybaik206"><img id="linkedin-icon" src="/images/LI-In-Bug.png"/></a></th>
+            <th><a href="https://github.com/jnnybk"/><img src="/images/GitHub-Mark-120px-plus.png"/></a></th>
+          </table>
         </div>
       </section>
     </div>
-
-    <section id="social">
-      <div>
-        <table id="socials">
-          <th><div class="circle"><a href="https://www.instagram.com/waikandbaik/"><img src="/images/glyph-logo_May2016.png"/></a></div></th>
-          <th><div class="circle"><a href="https://www.linkedin.com/in/jennybaik206"><img style="width: 35px;" src="/images/LI-In-Bug.png"/></a></div></th>
-          <th><div class="circle"><a href="https://github.com/jnnybk"/><img src="/images/GitHub-Mark-120px-plus.png"/></a></div></th>
-        </table>
-      </div>
-    </section>
 	</body>
 </html>

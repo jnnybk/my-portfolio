@@ -5,7 +5,7 @@
   margin-right: auto;
   width: 100%;
   height: 100vh;
-  background-color: rgb(242, 233, 228);
+  /* background-color: rgb(242, 233, 228); */
   overflow: auto;
 }
 #headshot {
@@ -16,24 +16,28 @@
   display: block;
 }
 #contact-section {
-  display: none;
+  display: block;
+  width: 100%;
 }
 #about-section {
-  display: none;
+  display: block;
 }
 body {
-  color: rgb(34, 34, 59);
+  color: rgb(23, 28, 40);
   height: 100%;
-  background-color: #4a4e69;
+}
+.entire-section {
+  background-color:white;
 }
 #menu {
   color: rgb(201, 173, 167);
   text-align: center;
   margin-left: auto; 
   margin-right: auto;
+  font-size: small;
 }
 th {
-  color: #4a4e69;
+  color: rgb(23, 28, 40);
   padding: 15px;
 }
 th:hover { 
@@ -85,17 +89,82 @@ h1 {
   margin-left: auto; 
   margin-right: auto;  
 }
-#songs {
-  margin-left: auto;
-  margin-right: auto;
-}
 .song-buttons {
-  background-color:rgb(201, 173, 167);
+  background-color:rgb(23, 28, 40);
   color: white;
 }
 ul {
   list-style-type: none;
 }
+li {
+  list-style: none;
+}
 a {
   text-decoration: none;
+  color:rgb(23, 28, 40);
+}
+h1 {
+  font-size: xx-large;
+}
+#comment-section {
+  font-size: small;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  color: rgb(23, 28, 40);
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  max-height: 100%;
+  overflow: auto;
+}
+.comment-item {
+  border: 1px solid grey;
+}
+#mode {
+  width: 50px;
+  height: 50px;
+}
+#mode:hover {
+  cursor: grab;
+}
+.dark-mode {
+  background-color: rgb(23, 28, 40);
+  color: white;
+}
+body.dark-mode a {
+  color: white;
+}
+body a {
+  color: rgb(23, 28, 40);
+}
+.fade-in {
+animation: fadeIn ease 2s;
+-webkit-animation: fadeIn ease 3s;
+-moz-animation: fadeIn ease 3s;
+-o-animation: fadeIn ease 3s;
+-ms-animation: fadeIn ease 3s;
+}
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+@-moz-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+#linkedin-icon {
+  width: 35px;
+  padding-top: 3px;
 }
