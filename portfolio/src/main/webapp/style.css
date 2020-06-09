@@ -168,3 +168,17 @@ animation: fadeIn ease 2s;
   width: 35px;
   padding-top: 3px;
 }
+#map {
+  margin: auto;
+  border: thin solid black;
+  height: 500px;
+  width: 500px;
+}
+#fixed {
+  position: fixed;
+  bottom: 0;
+  right: 5vh;
+}
+#fixed:hover {
+  font-size: large;
+}

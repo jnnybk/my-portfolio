@@ -148,8 +148,21 @@ async function checkLoginStatus() {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('mode').addEventListener('click', toggleMode);
+  loadMap();
 })
 
 function toggleMode() {
   document.body.classList.toggle("dark-mode");
+}
+
+function loadMap() {
+  const map = new google.maps.Map(
+    document.getElementById('map'), {
+    center: {
+      lat: 34.847847,
+      lng: 128.430403
+    },
+    zoom: 12
+    }
+  );
 }

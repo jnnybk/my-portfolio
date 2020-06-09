@@ -4,11 +4,13 @@
 		<meta charset="UTF-8">
 		<title>My Portfolio</title>
 		<link rel="stylesheet" href="style.css">
-		<script src="script.js"></script>
+    <script src="script.js"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJapwjIxehtn_bTiXZZKqofUX3V78iDsY&callback=loadMap"></script>
 	</head>
 
 	<body class="entire-section fade-in">
 		<div id="content">
+      <div id="fixed"><a href="#home"><p>back to the top</p></a></div>
       <section id="navbar">
         <table id="menu">
           <th><a href="#home">home</a></th>
@@ -77,6 +79,10 @@
             </select>
           <p id="comments">Comments: </p>
         </div>
+      </section>
+      <section>
+        <h2>Where are you from?</h2>
+        <div id="map"></div>
       </section>
       <section id="contact-section">
         <div>
