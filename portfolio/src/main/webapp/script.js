@@ -51,14 +51,14 @@ class ImageAnchors {
   }
 
   changeImg(isPrev = false) {
-    if ( isPrev ) {
-      if ( this.index === 0 ) {
+    if (isPrev) {
+      if (this.index === 0) {
         this.index = images.length - 1;
       } else {
         this.index--;
       }
     } else {
-      if ( this.index === images.length - 1 ) {
+      if (this.index === images.length - 1) {
         this.index = 0;
       } else {
         this.index++;
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const imgAnchor = new ImageAnchors();
   document.albumSlide.src = images[0].filePath;
   document.getElementById('wrapper').href = images[0].link;
-  
+
   displayComments();
 });
 
@@ -127,7 +127,7 @@ async function displayComments() {
 function deleteComment(comment) {
   const params = new URLSearchParams();
   params.append('id', comment.id);
-  fetch('/delete-data', {method: 'POST', body: params});
+  fetch('/delete-data', { method: 'POST', body: params });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -157,12 +157,11 @@ function toggleMode() {
 
 function loadMap() {
   const map = new google.maps.Map(
-    document.getElementById('map'), {
-    center: {
+  document.getElementById('map'), {
+    center: { // This points to my hometown in SKorea.
       lat: 34.847847,
       lng: 128.430403
     },
     zoom: 12
-    }
-  );
+  });
 }

@@ -4,8 +4,8 @@
 		<meta charset="UTF-8">
 		<title>My Portfolio</title>
 		<link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJapwjIxehtn_bTiXZZKqofUX3V78iDsY&callback=loadMap"></script>
+		<script src="script.js"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJapwjIxehtn_bTiXZZKqofUX3V78iDsY"></script>
 	</head>
 
 	<body class="entire-section fade-in">
@@ -28,7 +28,7 @@
       </section>
 
       <section>
-        <div  id="contact-section">
+        <div id="contact-section">
           <p>temporary section</p>
         </div>
         
@@ -72,12 +72,16 @@
         <div>
           <label for="maxNum">Show Maximum Number of Comments:</label>
             <select type="text" id="maxNum" name="max_num_of_comments">
+              <option value="5">5</option>
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
               <option value="100">100</option>
             </select>
           <p id="comments">Comments: </p>
+          <p id="end-of-comments-sign">You have reached the end of the comments.</p>
+          <button id="prev-comments">prev</button>
+          <button id="next-comments">next</button>
         </div>
       </section>
       <section>
