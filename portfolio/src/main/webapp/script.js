@@ -73,8 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const imgAnchor = new ImageAnchors();
   document.albumSlide.src = images[0].filePath;
   document.getElementById('wrapper').href = images[0].link;
-  
-  displayComments();
 });
 
 function createCommentElement(comment) {
@@ -106,23 +104,97 @@ function createCommentElement(comment) {
 
   return commentElement;
 }
-async function displayComments() {
-  maxNumberOfComments = document.getElementById('maxNum').value;
-  const params = new URLSearchParams();
-  params.append('max_num_of_contents', maxNumberOfComments);
-  const response = await fetch(`/data?max_num_of_comments=${maxNumberOfComments}`);
-  const comments = await response.json();
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('maxNum').addEventListener('input', () => {
+    let parentElement = document.getElementById('comments');
+    while (parentElement.firstChild) {
+      parentElement.removeChild(parentElement.lastChild);
+    }
+    cursorStr = null;
+    displayComments(cursorStr);
+  });
+});
 
-  commentElement = document.getElementById('comments');
-  while (commentElement.lastElementChild) {
-    commentElement.removeChild(commentElement.lastElementChild);
-  }
+let cursorStr = null;
+async function displayComments(cursorString) {
+  maxNumberOfComments = document.getElementById('maxNum').value;
+
+  const response = await fetch(`/data?max_num_of_comments=${maxNumberOfComments}&cursor=${cursorStr}`);
+  const commentData = await response.json();
 
   const commentListElement = document.getElementById('comments');
-  comments.forEach((comment) => {
-    commentListElement.appendChild(createCommentElement(comment));
+  cursorStr = commentData['cursorString'];
+
+  let commentList= commentListElement.children;
+
+  for (let i = 0; i < commentList.length; i++) {
+    commentList[i].style.display = "none";
+  }
+
+  if (commentData['commentList'].length < maxNumberOfComments) {
+    document.getElementById('next-comments').style.display = "none";
+    document.getElementById('end-of-comments-sign').style.display = "block";
+  }
+
+  let commentGroup = document.createElement('div');
+  let numberOfCommentGroups = commentListElement.childElementCount;
+  numberOfCommentGroups++;
+  commentGroup.id = numberOfCommentGroups.toString();
+  commentGroup.style.display = "block";
+  commentData['commentList'].forEach((comment) => {
+    commentGroup.appendChild(createCommentElement(comment));
   });
+  commentListElement.appendChild(commentGroup);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  let lastPage = 0;
+  document.getElementById('next-comments').addEventListener('click', (cursorStr) => {
+    document.getElementById('prev-comments').style.display = "block";
+    let commentList = document.getElementById('comments').children;
+
+    let i;
+    let needToSendNextRequest = true;
+    for (i = 0; i < commentList.length; i++) {
+      if (commentList[i].style.display === "block") {
+        if (commentList.length-1 !== i) {
+          commentList[i+1].style.display = "block";
+          commentList[i].style.display = "none";
+          needToSendNextRequest = false;
+        } else {
+          document.getElementById('end-of-comments-sign').style.display = "block";
+          document.getElementById('next-comments').style.display = "none";
+        }
+      }
+    }
+    if (needToSendNextRequest) {
+      lastPage++;
+      displayComments(cursorStr);
+      document.getElementById('end-of-comments-sign').style.display = "none";
+      document.getElementById('next-comments').style.display = "block";
+    }
+  });
+
+  document.getElementById('prev-comments').addEventListener('click', () => {
+    document.getElementById('end-of-comments-sign').style.display = "none";
+    document.getElementById('next-comments').style.display = "block";
+    let commentList = document.getElementById('comments').children;
+
+    let i;
+    for (i = 0; i < commentList.length; i++) {
+      if (commentList[i].style.display === "block") {
+        commentList[i].style.display = "none";
+
+        if (i === 1) {
+          document.getElementById('prev-comments').style.display = "none";
+        }
+        if (commentList.length !== 1) {
+          document.getElementById(i.toString()).style.display = "block";
+        }
+      }
+    }
+  });
+})
 
 function deleteComment(comment) {
   const params = new URLSearchParams();
@@ -131,7 +203,6 @@ function deleteComment(comment) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('maxNum').addEventListener('click', displayComments);
   checkLoginStatus();
 });
 

@@ -5,7 +5,6 @@
   margin-right: auto;
   width: 100%;
   height: 100vh;
-  /* background-color: rgb(242, 233, 228); */
   overflow: auto;
 }
 #headshot {
@@ -167,4 +166,10 @@ animation: fadeIn ease 2s;
 #linkedin-icon {
   width: 35px;
   padding-top: 3px;
+}
+#prev-comments {
+  display: none;
+}
+#end-of-comments-sign {
+  display: none;
 }
