@@ -3,22 +3,39 @@
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow: auto;
 }
+#home {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+#my-name {
+  display: flex;
+  width: 50vw;
+  height: 100vh;
+  margin-top: 0;
+  font-size: 50px;
+}
 #headshot {
+  display: flex;
   width: 200px;
   min-height: 200px;
 }
 #main-section {
   display: block;
+  width: 50vw;
+  height: 100vh;
 }
 #contact-section {
   display: block;
   width: 100%;
 }
 #about-section {
+  height: 100vh;
+  width: 100vw;
   display: block;
 }
 body {
@@ -34,6 +51,7 @@ body {
   margin-left: auto; 
   margin-right: auto;
   font-size: small;
+  width: 100vw;
 }
 th {
   color: rgb(23, 28, 40);
@@ -111,7 +129,8 @@ h1 {
   margin-right: auto;
   background-color: white;
   color: rgb(23, 28, 40);
-  width: 50%;
+  width: 50vw;
+  height: 100vh;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   max-height: 100%;
   overflow: auto;
@@ -146,6 +165,8 @@ h1 {
 .comment-content {
   display: flex;
   border: 5px solid red;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 #mode {
   width: 50px;
