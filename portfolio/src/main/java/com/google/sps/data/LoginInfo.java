@@ -23,5 +23,4 @@ public final class LoginInfo {
     this.isUserLoggedIn = isUserLoggedIn;
     this.urlLoginOrLogout = urlLoginOrLogout;
   }
-
 }
