@@ -1,40 +1,70 @@
-@import url(//fonts.googleapis.com/css?family=Open+Sans);
+@import url(//fonts.googleapis.com/css?family=Montserrat+Alternates);
 @import url(//fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap);
+body {
+  margin: 0;
+  display: grid;
+  color: rgb(23, 28, 40);
+  height: 100%;
+}
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
-  /* background-color: rgb(242, 233, 228); */
   overflow: auto;
 }
+#home {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+#my-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 100vh;
+  margin-top: 0;
+  font-size: 100px;
+  text-align: center;
+}
 #headshot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 200px;
   min-height: 200px;
 }
 #main-section {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 100vh;
 }
 #contact-section {
   display: block;
   width: 100%;
 }
 #about-section {
+  height: 100vh;
+  width: 100vw;
   display: block;
-}
-body {
-  color: rgb(23, 28, 40);
-  height: 100%;
 }
 .entire-section {
   background-color:white;
 }
 #menu {
-  color: rgb(201, 173, 167);
   text-align: center;
-  margin-left: auto; 
-  margin-right: auto;
+  right: 0;
   font-size: small;
+  padding: 5vh;
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+}
+#menu li {
+  padding: 5px;
 }
 th {
   color: rgb(23, 28, 40);
@@ -47,14 +77,15 @@ th:hover {
 * {
   text-align: center;
   vertical-align: center;
-  font-family: 'Open Sans';
+  font-family: 'Montserrat Alternates';
 }
 *::selection {
   background-color: #a26769;
   color:  white;
 }
 h1 {
-  font-family: 'Caveat', cursive;
+  font-family: 'Montserrat Alternates';
+  font-size: 80px;
 }
 #contact-section img {
   max-width: 30px;
@@ -103,22 +134,50 @@ a {
   text-decoration: none;
   color:rgb(23, 28, 40);
 }
-h1 {
-  font-size: xx-large;
-}
 #comment-section {
   font-size: small;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
   color: rgb(23, 28, 40);
-  width: 50%;
+  width: 50vw;
+  height: 100vh;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   max-height: 100%;
   overflow: auto;
+  border: 1px solid grey;
 }
 .comment-item {
+  border: 5px solid rgb(226, 107, 117);
+}
+.comment-item {
+  display: flex;
   border: 1px solid grey;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  min-height: 50px;
+  justify-content: left;
+  align-items: flex-start;
+}
+.comment-user-name {
+  display: flex;
+  border: 5px solid red;
+  align-self: flex-start left;
+  font-weight: bold;
+}
+.comment-user-email {
+  display: flex;
+  border: 5px solid red;
+  align-self: flex-start;
+  font-size: x-small;
+  color: grey;
+}
+.comment-content {
+  display: flex;
+  border: 5px solid red;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 #mode {
   width: 50px;

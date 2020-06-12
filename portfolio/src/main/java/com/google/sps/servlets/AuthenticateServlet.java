@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
+import com.google.sps.data.LoginInfo;
 
 @WebServlet("/login")
 public class AuthenticateServlet extends HttpServlet {
@@ -38,16 +39,16 @@ public class AuthenticateServlet extends HttpServlet {
       String urlToRedirectAfterLogOut = "/";
       String logoutUrl = userService.createLogoutURL(urlToRedirectAfterLogOut);
       
-      String json = gson.toJson(isUserLoggedIn);
-
+      LoginInfo loginInfo = new LoginInfo(isUserLoggedIn, logoutUrl);
+      String json = gson.toJson(loginInfo);
       response.getWriter().println(json);
     } else {
       String urlToRedirectAfterLogIn = "/";
       String loginUrl = userService.createLoginURL(urlToRedirectAfterLogIn);
 
-      String json = gson.toJson(isUserLoggedIn);
+      LoginInfo loginInfo = new LoginInfo(isUserLoggedIn, loginUrl);
+      String json = gson.toJson(loginInfo);
       response.getWriter().println(json);
-      response.sendRedirect("/");
     }
   }
 }
