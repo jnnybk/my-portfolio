@@ -5,11 +5,12 @@
 		<title>My Portfolio</title>
 		<link rel="stylesheet" href="style.css">
 		<script src="script.js"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJapwjIxehtn_bTiXZZKqofUX3V78iDsY"></script>
 	</head>
 
 	<body class="entire-section fade-in">
 		<div id="content">
-
+      <div id="fixed"><a href="#home"><p>back to the top</p></a></div>
       <section id="navbar">
         <nav id="menu">
           <li><a href="#main">home</a></li>
@@ -26,12 +27,6 @@
           <h1 id="my-name">Jenny Baik</h1>
           <div id="main-section">
             <img id="headshot" src="/images/Headshot_Jenny.JPG" alt="Image of me."/>
-          </div>
-        </section>
-
-        <section id="contact-section">
-          <div>
-            <p>temporary section</p>
           </div>
         </section>
 
@@ -56,44 +51,49 @@
             <h3><a href="/images/Jenny_Baik_Resume.pdf">Click for Resume!</a></h3>
           </div>
         </section>
-
-        <section id="comment-section">
-          <form id="comment-form" action="/data" method="POST">
-            <ul>
-              <li>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="user_name">
-              </li>
-              <li>
-                <label for="comment">Comment:</label>
-                <textarea type="text" id="comment" name="user_comment"></textarea>
-              </li>
-              <li>
-                <input type="submit" />
-              </li>
-            </ul>
-          </form>
-          <div>
-            <label for="maxNum">Show Maximum Number of Comments:</label>
-              <select type="text" id="maxNum" name="max_num_of_comments">
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-              </select>
-            <p id="comments">Comments: </p>
-          </div>
-        </section>
-
-        <section id="contact-section">
-          <div>
-            <table id="socials">
-              <th><a href="https://www.instagram.com/waikandbaik/"><img src="/images/instagram.png"/></a></th>
-              <th><a href="https://www.linkedin.com/in/jennybaik206"><img id="linkedin-icon" src="/images/LI-In-Bug.png"/></a></th>
-              <th><a href="https://github.com/jnnybk"/><img src="/images/GitHub-Mark-120px-plus.png"/></a></th>
-            </table>
-          </div>
-        </section>
+      <section id="comment-section">
+        <form id="comment-form" action="/data" method="POST">
+          <ul>
+            <li>    
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="user_name">
+            </li>
+            <li>
+              <label for="comment">Comment:</label>
+              <textarea type="text" id="comment" name="user_comment"></textarea>
+            </li>
+            <li>
+              <input type="submit" />
+            </li>
+          </ul>
+        </form>
+        <div>
+          <label for="maxNum">Show Maximum Number of Comments:</label>
+            <select type="text" id="maxNum" name="max_num_of_comments">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          <p id="comments">Comments: </p>
+          <p id="end-of-comments-sign">You have reached the end of the comments.</p>
+          <button id="prev-comments">prev</button>
+          <button id="next-comments">next</button>
+        </div>
+      </section>
+      <section>
+        <h2>Where are you from?</h2>
+        <div id="map"></div>
+      </section>
+      <section id="contact-section">
+        <div>
+          <table id="socials">
+            <th><a href="https://www.instagram.com/waikandbaik/"><img src="/images/instagram.png"/></a></th>
+            <th><a href="https://www.linkedin.com/in/jennybaik206"><img id="linkedin-icon" src="/images/LI-In-Bug.png"/></a></th>
+            <th><a href="https://github.com/jnnybk"><img src="/images/GitHub-Mark-120px-plus.png"/></a></th>
+          </table>
+        </div>
       </section>
     </div>
 	</body>
