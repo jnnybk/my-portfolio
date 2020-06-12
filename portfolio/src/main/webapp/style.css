@@ -162,20 +162,17 @@ a {
 }
 .comment-user-name {
   display: flex;
-  border: 5px solid red;
   align-self: flex-start left;
   font-weight: bold;
 }
 .comment-user-email {
   display: flex;
-  border: 5px solid red;
   align-self: flex-start;
   font-size: x-small;
   color: grey;
 }
 .comment-content {
   display: flex;
-  border: 5px solid red;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
