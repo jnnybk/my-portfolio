@@ -6,10 +6,12 @@
 		<link rel="stylesheet" href="style.css">
 		<script src="script.js"></script>
     <script src="pagination.js"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJapwjIxehtn_bTiXZZKqofUX3V78iDsY"></script>
 	</head>
 
 	<body class="entire-section fade-in">
 		<div id="content">
+      <div id="fixed"><a href="#home"><p>back to the top</p></a></div>
       <section id="navbar">
         <table id="menu">
           <th><a href="#home">home</a></th>
@@ -82,6 +84,10 @@
           <button id="prev-comments-button">prev</button>
           <button id="next-comments-button">next</button>
         </div>
+      </section>
+      <section>
+        <h2>Where are you from?</h2>
+        <div id="map"></div>
       </section>
       <section id="contact-section">
         <div>

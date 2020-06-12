@@ -51,14 +51,14 @@ class ImageAnchors {
   }
 
   changeImg(isPrev = false) {
-    if ( isPrev ) {
-      if ( this.index === 0 ) {
+    if (isPrev) {
+      if (this.index === 0) {
         this.index = images.length - 1;
       } else {
         this.index--;
       }
     } else {
-      if ( this.index === images.length - 1 ) {
+      if (this.index === images.length - 1) {
         this.index = 0;
       } else {
         this.index++;
@@ -92,8 +92,20 @@ async function checkLoginStatus() {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('mode').addEventListener('click', toggleMode);
+  loadMap();
 })
 
 function toggleMode() {
   document.body.classList.toggle("dark-mode");
+}
+
+function loadMap() {
+  const map = new google.maps.Map(
+  document.getElementById('map'), {
+    center: { // This points to my hometown in SKorea.
+      lat: 34.847847,
+      lng: 128.430403
+    },
+    zoom: 12
+  });
 }
