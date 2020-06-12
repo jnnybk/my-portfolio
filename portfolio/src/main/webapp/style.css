@@ -167,9 +167,9 @@ animation: fadeIn ease 2s;
   width: 35px;
   padding-top: 3px;
 }
-#prev-comments {
+.hidden {
   display: none;
 }
-#end-of-comments-sign {
-  display: none;
+.show {
+  display: block;
 }

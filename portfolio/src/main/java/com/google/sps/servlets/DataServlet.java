@@ -65,7 +65,8 @@ public class DataServlet extends HttpServlet {
     try {
       queryResults = results.asQueryResultList(fetchOptions);
     } catch (IllegalArgumentException e) {
-      response.sendRedirect("/data?max_num_of_comments=" + maxNumOfComments);
+      // I redirect to the /data URL with cursor as null to handle invalid cursors.
+      response.sendRedirect("/data?max_num_of_comments=" + maxNumOfComments + "&cursor=");
       return;
     }
     List<Comment> comments = new ArrayList<>();
