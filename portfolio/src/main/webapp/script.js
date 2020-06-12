@@ -142,7 +142,7 @@ async function login() {
 
   let loginElement = document.getElementById('login-status');
   let commentFormElement = document.getElementById('comment-form');
-  if (loginStatus.isUserLoggedIn  === true) {
+  if (loginStatus.isUserLoggedIn) {
     loginElement.text = "logout";
     loginElement.href = loginStatus.urlLoginOrLogout;
     commentFormElement.style.display = "block";
