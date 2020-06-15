@@ -15,9 +15,62 @@
 package com.google.sps;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.HashSet;
 
 public final class FindMeetingQuery {
+
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+    // throw new UnsupportedOperationException("TODO: Implement this method.");
+    
+    List<TimeRange> availableTimeRanges = new ArrayList();
+    Set<String> allAttendees = new HashSet();
+
+    for (Event event: events) {
+      allAttendees.addAll(event.getAttendees());
+    }
+    
+    if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
+      return availableTimeRanges;
+    }
+
+    if (Collections.disjoint(request.getAttendees(), allAttendees)) {
+      availableTimeRanges.add(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true));
+      return availableTimeRanges;
+    }
+
+    if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
+      return Collections.EMPTY_LIST;
+    } else {
+      List<Event> eventsList = new ArrayList(events);
+
+
+      Collections.sort(eventsList, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
+
+      for (int i = 1; i < eventsList.size(); i++) {
+        if (eventsList.get(i-1).getWhen().contains(eventsList.get(i).getWhen())) {
+          eventsList.remove(i);
+        }
+      }
+
+      int startTime = TimeRange.START_OF_DAY;
+      int endTime = TimeRange.END_OF_DAY;
+      for (int i = 0; i < eventsList.size(); i++) {
+        if (eventsList.get(i).getWhen().start() - startTime >= request.getDuration()) {
+          availableTimeRanges.add(TimeRange.fromStartEnd(startTime, eventsList.get(i).getWhen().start(), false));
+        }
+        startTime = eventsList.get(i).getWhen().end();
+      }
+
+      if (eventsList.get(eventsList.size()-1).getWhen().end() != 1440) {
+        availableTimeRanges.add(TimeRange.fromStartEnd(eventsList.get(eventsList.size()-1).getWhen().end(), endTime, true));
+      }
+      return availableTimeRanges;
+    }
   }
 }
