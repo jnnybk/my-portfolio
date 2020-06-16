@@ -32,7 +32,9 @@ class CommentButton {
     this.endOfCommentsSign.classList.add("hidden");
    
     document.getElementById('maxNum').addEventListener('input', () => {
+      // Resetting innerHTML of comments when user re-selects the number of maximum comments to display
       this.comments.innerHTML = "";
+      // Displays most recent page of comments so "prev" button should be hidden, "end-of-comments-sign" should be hidden, while "next" button should display.
       this.prevCommentsButton.classList.add("hidden");
       this.nextCommentsButton.classList.remove("hidden");
       this.endOfCommentsSign.classList.add("hidden");
@@ -65,14 +67,19 @@ class CommentButton {
   displayNextPage() {
     this.prevCommentsButton.classList.remove("hidden");
 
+    // this.currentCommentsPageIndex points to the page that is displayed before the user clicks next
+    // if condition checks whether the page to display when user clicks next is the last page, which holds -1 or the last page index that is set in the request/display new comments page function
     let commentList = this.comments.children;
     if (this.currentCommentsPageIndex + 1 === this.lastPage) {
       this.nextCommentsButton.classList.add("hidden");
       this.endOfCommentsSign.classList.remove("hidden");
     }
+    // First if condition checks whether the current comments page + 1 (so the requested page) is not the last page.
+    // If not the last page - shows the page after the current page while hiding the current page
+    // If yes - hides the current page and calls function to request / display for a new comments page.
     if (this.currentCommentsPageIndex + 1 < this.totalNumberOfPagesRequested) {
-      this.hideCommentAtIndex(this.currentCommentsPageIndex+1);
-      this.showCommentAtIndex(this.currentCommentsPageIndex);
+      this.showCommentAtIndex(this.currentCommentsPageIndex+1);
+      this.hideCommentAtIndex(this.currentCommentsPageIndex);
     } else {
       this.hideCommentAtIndex(this.currentCommentsPageIndex);
       this.requestAndDisplayNewCommentsPage(this.cursorString);
@@ -85,15 +92,17 @@ class CommentButton {
     this.endOfCommentsSign.classList.add("hidden");
     this.nextCommentsButton.classList.remove("hidden");
     
-    const commentList = this.comments.children;
-    commentList[this.currentCommentsPageIndex-1].classList.remove("hidden");
-    commentList[this.currentCommentsPageIndex].classList.add("hidden");
+    this.showCommentAtIndex(this.currentCommentsPageIndex-1);
+    this.hideCommentAtIndex(this.currentCommentsPageIndex);
+
     if (this.currentCommentsPageIndex-1 === 0) {
       this.prevCommentsButton.classList.add("hidden");
     }
     this.currentCommentsPageIndex--;
   }
 
+  // Handles only requesting and displaying new comments page, when called from displayNextPage() or constructor().
+  // Incrementing the current comments index page and the total number of requested pages does not happen in this function.
   async requestAndDisplayNewCommentsPage(cursorStr = null) {
     let maxNumberOfComments = document.getElementById('maxNum').value;
 
