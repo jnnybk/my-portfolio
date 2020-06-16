@@ -76,17 +76,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  checkLoginStatus();
+  document.getElementById('login-status').addEventListener('click', login);
+  login();
 });
 
-async function checkLoginStatus() {
+async function login() {
   const response = await fetch('/login');
   const loginStatus = await response.json();
 
-  if (loginStatus === true) {
-    document.getElementById('comment-form').style.display = "block";
+  let loginElement = document.getElementById('login-status');
+  let commentFormElement = document.getElementById('comment-form');
+  if (loginStatus.isUserLoggedIn) {
+    loginElement.text = "logout";
+    loginElement.href = loginStatus.urlLoginOrLogout;
+    commentFormElement.style.display = "block";
   } else {
-    document.getElementById('comment-form').style.display = "none";
+    loginElement.text = "login";
+    loginElement.href = loginStatus.urlLoginOrLogout;
+    commentFormElement.style.display = "none";
   }
 }
 
