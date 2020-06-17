@@ -79,20 +79,20 @@ class CommentButton {
 
     this.prevCommentsButton.classList.remove("hidden");
 
-    // this.currentCommentsPageIndex points to the page that is displayed before the user clicks next
-    // if condition checks whether the page to display when user clicks next is the last page, which holds -1 or the last page index that is set in the request/display new comments page function
     let commentList = this.comments.children;
     if (this.currentCommentsPageIndex + 1 === this.lastPage) {
+      // There are no more comments.
       this.nextCommentsButton.classList.add("hidden");
       this.endOfCommentsSign.classList.remove("hidden");
+      return;
     }
-    // First if condition checks whether the current comments page + 1 (so the requested page) is not the last page.
-    // If not the last page - shows the page after the current page while hiding the current page
-    // If yes - hides the current page and calls function to request / display for a new comments page.
+
     if (this.currentCommentsPageIndex + 1 < this.totalNumberOfPagesRequested) {
+      // There are more pages to view that have already been loaded. Swap the visible comments page.
       this.showCommentAtIndex(this.currentCommentsPageIndex+1);
       this.hideCommentAtIndex(this.currentCommentsPageIndex);
     } else {
+      // Need to request a new page from the server. Prev/Next buttons are already disabled, so awaiting response is safe since user cannot change page index while the comments are being fetched.
       this.hideCommentAtIndex(this.currentCommentsPageIndex);
       await this.requestAndDisplayNewCommentsPage(this.cursorString);
       this.totalNumberOfPagesRequested++;
