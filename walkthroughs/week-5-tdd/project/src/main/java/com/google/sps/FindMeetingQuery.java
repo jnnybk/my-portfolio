@@ -25,9 +25,6 @@ import java.util.HashSet;
 
 public final class FindMeetingQuery {
 
-  /**
-   * Returns a set of attendees for all events in collection.
-   */
   public Set<String> getAllAttendees(Collection<Event> events) {
     Set<String> allAttendees = new HashSet();
     for (Event event: events) {
@@ -36,83 +33,112 @@ public final class FindMeetingQuery {
     return allAttendees;
   }
 
-  /**
-   * Returns true if requesters and attendees do not overlap.
-   */
-  public boolean hasOverlappingAttendees(Collection<String> requesters, Set<String> attendees) {
+  public boolean hasNoOverlappingAttendees(Collection<String> requesters, Set<String> attendees) {
     return Collections.disjoint(requesters, attendees);
   }
 
-  /**
-   * Returns a list of events sorted by their start times.
-   */
-  public List<Event> createSortedEventsList(Collection<Event> events) {
+  public List<Event> createSortedEventsListOfMandatory(Collection<Event> events, Set<String> optionalAttendees) {
+    List<Event> eventsList = new ArrayList(events);
+    int i = 0;
+    while (i < eventsList.size()) {
+      if (eventsList.get(i).getAttendees().equals(optionalAttendees)) {
+        eventsList.remove(i); 
+      } else {
+        i++;
+      }
+    }
+    return eventsList;
+  }
+
+  public List<Event> createSortedEventsListOfMandatoryAndOptional(Collection<Event> events) {
     List<Event> eventsList = new ArrayList(events);
     Collections.sort(eventsList, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
     return eventsList;
   }
 
   /**
-   * Removes nested events. An example of a nested event is shown below (B).
+   * Removes nested events and overlapped. 
+   * An example of a nested event is shown below (B).
    * Events:  |----A----|
    *           |--B--|
+   * An example of overlapped events is shown below.
+   * Events:  |----A----|
+   *                 |----B----|
    */
-  public void removeNestedEvents(List<Event> eventsList) {
-    for (int i = 1; i < eventsList.size(); i++) {
-      if (eventsList.get(i-1).getWhen().contains(eventsList.get(i).getWhen())) {
-        eventsList.remove(i);
+  public void removeNestedAndOverlappedEvents(List<TimeRange> timeRangesList) {
+
+    int i = 0;
+    while (i < timeRangesList.size()-1) {
+      if (timeRangesList.get(i).contains(timeRangesList.get(i+1))) {
+        timeRangesList.remove(i+1);
+      } else if (timeRangesList.get(i).contains(timeRangesList.get(i+1).start())) {
+        int newStartTime = timeRangesList.get(i).start();
+        int newEndTime = timeRangesList.get(i+1).end();
+        timeRangesList.remove(i);
+        timeRangesList.remove(i);
+        timeRangesList.add(i, TimeRange.fromStartEnd(newStartTime, newEndTime, false));
+      } else {
+        i++;
       }
     }
   }
 
-  /**
-   * Returns true if the request duration is longer than a day. Meeting request duration should never be longer than a day.
-   */
   public boolean isRequestDurationTooLong(MeetingRequest request) {
+    // Meeting request duration should never be longer than a day.
     return request.getDuration() > TimeRange.WHOLE_DAY.duration();
   }
 
-  /**
-   * Adds available times to list of TimeRanges.
-   */
-  public void addAvailableTimeRanges(List<TimeRange> availableTimeRanges, List<Event> eventsList, MeetingRequest request) {
+  public void addAvailableTimeRanges(List<TimeRange> availableTimeRanges, List<TimeRange> timeRangesList, MeetingRequest request) {
     int startTime = TimeRange.START_OF_DAY;
     int endTime = TimeRange.END_OF_DAY;
-
-    for (int i = 0; i < eventsList.size(); i++) {
-      // If true, event at i and event at i-1 (if i is not 0) overlap.
-      if (eventsList.get(i).getWhen().start() - startTime >= request.getDuration()) {
-        availableTimeRanges.add(TimeRange.fromStartEnd(startTime, eventsList.get(i).getWhen().start(), false));
+    
+    for (int i = 0; i < timeRangesList.size(); i++) {
+      if (timeRangesList.get(i).start() - startTime >= request.getDuration()) {
+        availableTimeRanges.add(TimeRange.fromStartEnd(startTime, timeRangesList.get(i).start(), false));
       }
-      startTime = eventsList.get(i).getWhen().end();
+      startTime = timeRangesList.get(i).end();
     }
-    // Handles the last TimeRange from the end of the last event to the end of the day (if they are not equal).
-    if (eventsList.get(eventsList.size()-1).getWhen().end() != endTime + 1) {
-      availableTimeRanges.add(TimeRange.fromStartEnd(eventsList.get(eventsList.size()-1).getWhen().end(), endTime, true));
+
+    if (timeRangesList.get(timeRangesList.size()-1).end() != endTime + 1) {
+      availableTimeRanges.add(TimeRange.fromStartEnd(timeRangesList.get(timeRangesList.size()-1).end(), endTime, true));
     }
   }
 
-  /**
-   * Returns a list of available TimeRanges, handling nested / overlapping events.
-   */
+  public List<TimeRange> findTimeRangesOfEvents(List<Event> eventsList) {
+    List<TimeRange> timeRangesList = new ArrayList();
+
+    for (Event event: eventsList) {
+      timeRangesList.add(TimeRange.fromStartEnd(event.getWhen().start(), event.getWhen().end(), false));
+    }
+    return timeRangesList;
+  }
+
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    List<TimeRange> availableTimeRanges = new ArrayList();
+    Set<String> optionalAttendees = new HashSet(request.getOptionalAttendees());
     Set<String> allAttendees = getAllAttendees(events);
-    List<Event> eventsList = createSortedEventsList(events);
+    List<TimeRange> availableTimeRanges = new ArrayList();
+    
+    List<Event> eventsListOfMandatory = createSortedEventsListOfMandatory(events, optionalAttendees);
+    List<Event> eventsListOfMandatoryAndOptional = createSortedEventsListOfMandatoryAndOptional(events);
 
     if (isRequestDurationTooLong(request)) {
       return availableTimeRanges;
     }
 
-    if (hasOverlappingAttendees(request.getAttendees(), allAttendees)) {
+    if (hasNoOverlappingAttendees(request.getAttendees(), allAttendees)) {
       availableTimeRanges.add(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true));
       return availableTimeRanges;
     }
 
-    removeNestedEvents(eventsList);
+    List<TimeRange> timeRangesList = findTimeRangesOfEvents(eventsListOfMandatoryAndOptional);
+    removeNestedAndOverlappedEvents(timeRangesList);
+    addAvailableTimeRanges(availableTimeRanges, timeRangesList, request);
 
-    addAvailableTimeRanges(availableTimeRanges, eventsList, request);
-
+    if (availableTimeRanges.size() == 0) {
+      List<TimeRange> timeRangesListOnlyMandatory = findTimeRangesOfEvents(eventsListOfMandatory);
+      removeNestedAndOverlappedEvents(timeRangesListOnlyMandatory);
+      addAvailableTimeRanges(availableTimeRanges, timeRangesListOnlyMandatory, request);
+    }
     return availableTimeRanges;
   }
 }
