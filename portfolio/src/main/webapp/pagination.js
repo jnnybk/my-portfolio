@@ -64,7 +64,19 @@ class CommentButton {
     commentList[index].classList.remove("hidden");
   }
 
-  displayNextPage() {
+  disableButtons() {
+    this.prevCommentsButton.disabled = true;
+    this.nextCommentsButton.disabled = true;
+  }
+
+  enableButtons() {
+    this.prevCommentsButton.disabled = false;
+    this.nextCommentsButton.disabled = false;
+  }
+
+   async displayNextPage() {
+    this.disableButtons();
+
     this.prevCommentsButton.classList.remove("hidden");
 
     // this.currentCommentsPageIndex points to the page that is displayed before the user clicks next
@@ -82,10 +94,11 @@ class CommentButton {
       this.hideCommentAtIndex(this.currentCommentsPageIndex);
     } else {
       this.hideCommentAtIndex(this.currentCommentsPageIndex);
-      this.requestAndDisplayNewCommentsPage(this.cursorString);
+      await this.requestAndDisplayNewCommentsPage(this.cursorString);
       this.totalNumberOfPagesRequested++;
     }
     this.currentCommentsPageIndex++;
+    this.enableButtons();
   }
 
   displayPrevPage() {
