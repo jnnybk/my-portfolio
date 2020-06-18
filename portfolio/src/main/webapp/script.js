@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('login-status').addEventListener('click', login);
-  login();
 });
 
 async function login() {

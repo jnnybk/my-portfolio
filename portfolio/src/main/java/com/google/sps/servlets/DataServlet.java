@@ -50,6 +50,7 @@ public class DataServlet extends HttpServlet {
     } catch (Exception e) {
       maxNumOfComments = 5;
     }
+
     FetchOptions fetchOptions = FetchOptions.Builder.withLimit(maxNumOfComments);
     String startCursor = request.getParameter("cursor");
     if (startCursor != null ) {
