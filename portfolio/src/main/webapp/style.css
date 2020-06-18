@@ -227,6 +227,11 @@ animation: fadeIn ease 2s;
   width: 35px;
   padding-top: 3px;
 }
+.hidden {
+  display: none;
+}
+.show {
+  display: block;
 #map {
   margin: auto;
   border: thin solid black;
@@ -240,4 +245,5 @@ animation: fadeIn ease 2s;
 }
 #fixed:hover {
   font-size: large;
+
 }

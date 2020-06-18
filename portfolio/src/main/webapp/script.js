@@ -73,67 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const imgAnchor = new ImageAnchors();
   document.albumSlide.src = images[0].filePath;
   document.getElementById('wrapper').href = images[0].link;
-
-  displayComments();
 });
 
-function createCommentElement(comment) {
-  const commentElement = document.createElement('li');
-  commentElement.className = 'comment-item';
-
-  const commentUserNameElement = document.createElement('span');
-  commentUserNameElement.innerText = comment.userName + ':';
-  commentUserNameElement.className = 'comment-user-name';
-
-  const commentUserEmailElement = document.createElement('span');
-  commentUserEmailElement.innerText = comment.userEmail;
-  commentUserEmailElement.className = 'comment-user-email';
-
-  const commentContentElement = document.createElement('span');
-  commentContentElement.innerText = comment.userComment;
-  commentContentElement.className = 'comment-content';
-
-  const deleteButtonElement = document.createElement('button');
-  deleteButtonElement.innerText = 'Delete';
-  deleteButtonElement.addEventListener('click', () => {
-    deleteComment(comment);
-    commentElement.remove();
-  });
-
-  commentElement.appendChild(commentUserNameElement);
-  commentElement.appendChild(commentContentElement);
-  commentElement.appendChild(commentUserEmailElement);
-
-  return commentElement;
-}
-async function displayComments() {
-  maxNumberOfComments = document.getElementById('maxNum').value;
-  const params = new URLSearchParams();
-  params.append('max_num_of_contents', maxNumberOfComments);
-  const response = await fetch(`/data?max_num_of_comments=${maxNumberOfComments}`);
-  const comments = await response.json();
-
-  commentElement = document.getElementById('comments');
-  while (commentElement.lastElementChild) {
-    commentElement.removeChild(commentElement.lastElementChild);
-  }
-
-  const commentListElement = document.getElementById('comments');
-  comments.forEach((comment) => {
-    commentListElement.appendChild(createCommentElement(comment));
-  });
-}
-
-function deleteComment(comment) {
-  const params = new URLSearchParams();
-  params.append('id', comment.id);
-  fetch('/delete-data', { method: 'POST', body: params });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('maxNum').addEventListener('click', displayComments);
   document.getElementById('login-status').addEventListener('click', login);
-  login();
 });
 
 async function login() {

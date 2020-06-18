@@ -27,8 +27,11 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.QueryResultList;
+import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.Comment;
+import com.google.sps.data.Data;
 import java.lang.Integer;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.users.UserService;
@@ -45,15 +48,30 @@ public class DataServlet extends HttpServlet {
     try {
       maxNumOfComments = Integer.parseInt(request.getParameter("max_num_of_comments"));
     } catch (Exception e) {
-      maxNumOfComments = 10;
+      maxNumOfComments = 5;
+    }
+
+    FetchOptions fetchOptions = FetchOptions.Builder.withLimit(maxNumOfComments);
+    String startCursor = request.getParameter("cursor");
+    if (startCursor != null ) {
+      fetchOptions.startCursor(Cursor.fromWebSafeString(startCursor));
     }
 
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    QueryResultList<Entity> queryResults;
+
+    try {
+      queryResults = results.asQueryResultList(fetchOptions);
+    } catch (IllegalArgumentException e) {
+      // I redirect to the /data URL with cursor as null to handle invalid cursors.
+      response.sendRedirect("/data?max_num_of_comments=" + maxNumOfComments + "&cursor=");
+      return;
+    }
     List<Comment> comments = new ArrayList<>();
-    for (Entity entity: results.asIterable(FetchOptions.Builder.withLimit(maxNumOfComments))) {
+    for (Entity entity: results.asIterable(fetchOptions)) {
       String userName = (String) entity.getProperty("userName");
       String userComment = (String) entity.getProperty("userComment");
       String userEmail = (String) entity.getProperty("userEmail");
@@ -63,8 +81,13 @@ public class DataServlet extends HttpServlet {
       Comment comment = new Comment(userName, userComment, userEmail, timestamp, id);
       comments.add(comment);
     }
+
+    String cursorString = queryResults.getCursor().toWebSafeString();
     Gson gson = new Gson();
-    String json = gson.toJson(comments);
+
+    Data data = new Data(comments, cursorString);
+    String json = gson.toJson(data);
+
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
