@@ -25,99 +25,12 @@ import java.util.HashSet;
 
 public final class FindMeetingQuery {
 
-  public Set<String> getAllAttendees(Collection<Event> events) {
-    Set<String> allAttendees = new HashSet();
-    for (Event event: events) {
-      allAttendees.addAll(event.getAttendees());
-    }
-    return allAttendees;
-  }
-
-  public boolean hasNoOverlappingAttendees(Collection<String> requesters, Set<String> attendees) {
-    return Collections.disjoint(requesters, attendees);
-  }
-
-  public List<Event> createSortedEventsListOfMandatory(Collection<Event> events, Set<String> optionalAttendees) {
-    List<Event> eventsList = new ArrayList(events);
-    int i = 0;
-    while (i < eventsList.size()) {
-      if (eventsList.get(i).getAttendees().equals(optionalAttendees)) {
-        eventsList.remove(i); 
-      } else {
-        i++;
-      }
-    }
-    return eventsList;
-  }
-
-  public List<Event> createSortedEventsListOfMandatoryAndOptional(Collection<Event> events) {
-    List<Event> eventsList = new ArrayList(events);
-    Collections.sort(eventsList, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
-    return eventsList;
-  }
-
-  /**
-   * Removes nested events and overlapped. 
-   * An example of a nested event is shown below (B).
-   * Events:  |----A----|
-   *           |--B--|
-   * An example of overlapped events is shown below.
-   * Events:  |----A----|
-   *                 |----B----|
-   */
-  public void removeNestedAndOverlappedEvents(List<TimeRange> timeRangesList) {
-
-    int i = 0;
-    while (i < timeRangesList.size()-1) {
-      if (timeRangesList.get(i).contains(timeRangesList.get(i+1))) {
-        timeRangesList.remove(i+1);
-      } else if (timeRangesList.get(i).contains(timeRangesList.get(i+1).start())) {
-        int newStartTime = timeRangesList.get(i).start();
-        int newEndTime = timeRangesList.get(i+1).end();
-        timeRangesList.remove(i);
-        timeRangesList.remove(i);
-        timeRangesList.add(i, TimeRange.fromStartEnd(newStartTime, newEndTime, false));
-      } else {
-        i++;
-      }
-    }
-  }
-
-  public boolean isRequestDurationTooLong(MeetingRequest request) {
-    // Meeting request duration should never be longer than a day.
-    return request.getDuration() > TimeRange.WHOLE_DAY.duration();
-  }
-
-  public void addAvailableTimeRanges(List<TimeRange> availableTimeRanges, List<TimeRange> timeRangesList, MeetingRequest request) {
-    int startTime = TimeRange.START_OF_DAY;
-    int endTime = TimeRange.END_OF_DAY;
-    
-    for (int i = 0; i < timeRangesList.size(); i++) {
-      if (timeRangesList.get(i).start() - startTime >= request.getDuration()) {
-        availableTimeRanges.add(TimeRange.fromStartEnd(startTime, timeRangesList.get(i).start(), false));
-      }
-      startTime = timeRangesList.get(i).end();
-    }
-
-    if (timeRangesList.get(timeRangesList.size()-1).end() != endTime + 1) {
-      availableTimeRanges.add(TimeRange.fromStartEnd(timeRangesList.get(timeRangesList.size()-1).end(), endTime, true));
-    }
-  }
-
-  public List<TimeRange> findTimeRangesOfEvents(List<Event> eventsList) {
-    List<TimeRange> timeRangesList = new ArrayList();
-
-    for (Event event: eventsList) {
-      timeRangesList.add(TimeRange.fromStartEnd(event.getWhen().start(), event.getWhen().end(), false));
-    }
-    return timeRangesList;
-  }
-
+  // Returns available times for meeting requesters based on the events and its attendees' schedules.
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     Set<String> optionalAttendees = new HashSet(request.getOptionalAttendees());
     Set<String> allAttendees = getAllAttendees(events);
     List<TimeRange> availableTimeRanges = new ArrayList();
-    
+
     List<Event> eventsListOfMandatory = createSortedEventsListOfMandatory(events, optionalAttendees);
     List<Event> eventsListOfMandatoryAndOptional = createSortedEventsListOfMandatoryAndOptional(events);
 
@@ -140,5 +53,94 @@ public final class FindMeetingQuery {
       addAvailableTimeRanges(availableTimeRanges, timeRangesListOnlyMandatory, request);
     }
     return availableTimeRanges;
+  }
+
+  // Returns a set of all of the attendees of events.
+  private Set<String> getAllAttendees(Collection<Event> events) {
+    Set<String> allAttendees = new HashSet();
+    for (Event event: events) {
+      allAttendees.addAll(event.getAttendees());
+    }
+    return allAttendees;
+  }
+
+  // Checks if the requesters of a meeting and the attendees have overlapping members.
+  private boolean hasNoOverlappingAttendees(Collection<String> requesters, Set<String> attendees) {
+    return Collections.disjoint(requesters, attendees);
+  }
+
+  // Sorts the TimeRanges of events of only mandatory attendees by their start time.
+  private List<Event> createSortedEventsListOfMandatory(Collection<Event> events, Set<String> optionalAttendees) {
+    List<Event> eventsList = new ArrayList(events);
+    eventsList.removeIf(event -> event.getAttendees().equals(optionalAttendees));
+    return eventsList;
+  }
+
+  // Sorts the TimeRanges of events of both mandatory and optional attendees by their start time.
+  private List<Event> createSortedEventsListOfMandatoryAndOptional(Collection<Event> events) {
+    List<Event> eventsList = new ArrayList(events);
+    Collections.sort(eventsList, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
+    return eventsList;
+  }
+
+  /**
+   * Removes nested events and overlapped. 
+   * An example of a nested event is shown below (B).
+   * Events:  |----A----|
+   *           |--B--|
+   * An example of overlapped events is shown below.
+   * Events:  |----A----|
+   *                 |----B----|
+   */
+  private void removeNestedAndOverlappedEvents(List<TimeRange> timeRangesList) {
+    int i = 0;
+    while (i < timeRangesList.size()-1) {
+      TimeRange thisRange = timeRangesList.get(i);
+      TimeRange nextRange = timeRangesList.get(i+1);
+      if (thisRange.overlaps(nextRange)) {
+        // Combines overlapping TimeRanges into one TimeRange.
+        int newStartTime = Math.min(thisRange.start(), nextRange.start());
+        int newEndTime = Math.max(thisRange.end(), nextRange.end());
+        timeRangesList.remove(i);
+        timeRangesList.remove(i);
+        timeRangesList.add(i, TimeRange.fromStartEnd(newStartTime, newEndTime, false));
+      } else {
+        // Current TimeRange and next TimeRange do not overlap. We can move onto checking the next TimeRange pair.
+        i++;
+      }
+    }
+  }
+
+  // Checks if the requested TimeRange duration is longer than a day.
+  private boolean isRequestDurationTooLong(MeetingRequest request) {
+    // Meeting request duration should never be longer than a day.
+    return request.getDuration() > TimeRange.WHOLE_DAY.duration();
+  }
+
+  // Finds available TimeRanges based on the list of TimeRanges of busy events.
+  private void addAvailableTimeRanges(List<TimeRange> availableTimeRanges, List<TimeRange> timeRangesList, MeetingRequest request) {
+    int startTime = TimeRange.START_OF_DAY;
+    int endTime = TimeRange.END_OF_DAY;
+    
+    for (int i = 0; i < timeRangesList.size(); i++) {
+      if (timeRangesList.get(i).start() - startTime >= request.getDuration()) {
+        availableTimeRanges.add(TimeRange.fromStartEnd(startTime, timeRangesList.get(i).start(), false));
+      }
+      startTime = timeRangesList.get(i).end();
+    }
+
+    if (timeRangesList.get(timeRangesList.size()-1).end() != endTime + 1) {
+      availableTimeRanges.add(TimeRange.fromStartEnd(timeRangesList.get(timeRangesList.size()-1).end(), endTime, true));
+    }
+  }
+
+  // Returns list of TimeRanges of each event in eventsList.
+  private List<TimeRange> findTimeRangesOfEvents(List<Event> eventsList) {
+    List<TimeRange> timeRangesList = new ArrayList();
+
+    for (Event event: eventsList) {
+      timeRangesList.add(TimeRange.fromStartEnd(event.getWhen().start(), event.getWhen().end(), false));
+    }
+    return timeRangesList;
   }
 }
