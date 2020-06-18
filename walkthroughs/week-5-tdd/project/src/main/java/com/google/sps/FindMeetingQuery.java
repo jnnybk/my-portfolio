@@ -27,11 +27,11 @@ public final class FindMeetingQuery {
 
   // Returns available times for meeting requesters based on the events and its attendees' schedules.
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    Set<String> optionalAttendees = new HashSet(request.getOptionalAttendees());
+    Set<String> mandatoryAttendees = new HashSet(request.getAttendees());
     Set<String> allAttendees = getAllAttendees(events);
     List<TimeRange> availableTimeRanges = new ArrayList();
 
-    List<Event> eventsListOfMandatory = createSortedEventsListOfMandatory(events, optionalAttendees);
+    List<Event> eventsListOfMandatory = createSortedEventsListOfMandatory(events, mandatoryAttendees);
     List<Event> eventsListOfMandatoryAndOptional = createSortedEventsListOfMandatoryAndOptional(events);
 
     if (isRequestDurationTooLong(request)) {
@@ -48,6 +48,7 @@ public final class FindMeetingQuery {
     addAvailableTimeRanges(availableTimeRanges, timeRangesList, request);
 
     if (availableTimeRanges.size() == 0) {
+      // Removing the optional attendees and only looking at the mandatory attendees schedules.
       List<TimeRange> timeRangesListOnlyMandatory = findTimeRangesOfEvents(eventsListOfMandatory);
       removeNestedAndOverlappedEvents(timeRangesListOnlyMandatory);
       addAvailableTimeRanges(availableTimeRanges, timeRangesListOnlyMandatory, request);
@@ -70,9 +71,10 @@ public final class FindMeetingQuery {
   }
 
   // Sorts the TimeRanges of events of only mandatory attendees by their start time.
-  private List<Event> createSortedEventsListOfMandatory(Collection<Event> events, Set<String> optionalAttendees) {
+  private List<Event> createSortedEventsListOfMandatory(Collection<Event> events, Set<String> mandatoryAttendees) {
     List<Event> eventsList = new ArrayList(events);
-    eventsList.removeIf(event -> event.getAttendees().equals(optionalAttendees));
+    eventsList.removeIf(event -> Collections.disjoint(event.getAttendees(), mandatoryAttendees));
+    Collections.sort(eventsList, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
     return eventsList;
   }
 
