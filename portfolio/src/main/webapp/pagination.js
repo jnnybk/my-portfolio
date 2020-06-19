@@ -23,6 +23,7 @@ class CommentButton {
     this.totalNumberOfPagesRequested = 1;
     this.lastPage = -1;
     this.cursorString = null;
+
     this.prevCommentsButton = document.getElementById('prev-comments-button');
     this.nextCommentsButton = document.getElementById('next-comments-button');
     this.endOfCommentsSign = document.getElementById('end-of-comments-sign');
@@ -121,6 +122,7 @@ class CommentButton {
 
     const response = await fetch(`/data?max_num_of_comments=${maxNumberOfComments}&cursor=${cursorStr}`);
     const commentData = await response.json();
+
     const commentListElement = this.comments;
     this.cursorString = commentData['cursorString'];
 
