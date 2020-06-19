@@ -28,11 +28,20 @@ public final class FindMeetingQuery {
   // Returns available times for meeting requesters based on the events and its attendees' schedules.
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     Set<String> mandatoryAttendees = new HashSet(request.getAttendees());
-    Set<String> allAttendees = getAllAttendees(events);
+    // All attendees include mandatory and optional attendees.
+    Set<String> allAttendees = new HashSet(mandatoryAttendees);
+    allAttendees.addAll(request.getOptionalAttendees());
+
+    List<Event> eventsList = new ArrayList();
+    for (Event event: events) {
+      if (!Collections.disjoint(allAttendees, event.getAttendees())) {
+        eventsList.add(event);
+      }
+    }
     List<TimeRange> availableTimeRanges = new ArrayList();
 
-    List<Event> eventsListOfMandatory = createSortedEventsListOfMandatory(events, mandatoryAttendees);
-    List<Event> eventsListOfMandatoryAndOptional = createSortedEventsListOfMandatoryAndOptional(events);
+    List<Event> eventsListOfMandatory = createSortedEventsListOfMandatory(eventsList, mandatoryAttendees);
+    List<Event> eventsListOfMandatoryAndOptional = createSortedEventsListOfMandatoryAndOptional(eventsList);
 
     if (isRequestDurationTooLong(request)) {
       return availableTimeRanges;
@@ -71,18 +80,16 @@ public final class FindMeetingQuery {
   }
 
   // Sorts the TimeRanges of events of only mandatory attendees by their start time.
-  private List<Event> createSortedEventsListOfMandatory(Collection<Event> events, Set<String> mandatoryAttendees) {
-    List<Event> eventsList = new ArrayList(events);
-    eventsList.removeIf(event -> Collections.disjoint(event.getAttendees(), mandatoryAttendees));
-    Collections.sort(eventsList, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
-    return eventsList;
+  private List<Event> createSortedEventsListOfMandatory(List<Event> events, Set<String> mandatoryAttendees) {
+    events.removeIf(event -> Collections.disjoint(event.getAttendees(), mandatoryAttendees));
+    Collections.sort(events, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
+    return events;
   }
 
   // Sorts the TimeRanges of events of both mandatory and optional attendees by their start time.
-  private List<Event> createSortedEventsListOfMandatoryAndOptional(Collection<Event> events) {
-    List<Event> eventsList = new ArrayList(events);
-    Collections.sort(eventsList, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
-    return eventsList;
+  private List<Event> createSortedEventsListOfMandatoryAndOptional(List<Event> events) {
+    Collections.sort(events, Comparator.comparing(Event::getWhen, TimeRange.ORDER_BY_START));
+    return events;
   }
 
   /**
@@ -130,8 +137,10 @@ public final class FindMeetingQuery {
       }
       startTime = timeRangesList.get(i).end();
     }
-
-    if (timeRangesList.get(timeRangesList.size()-1).end() != endTime + 1) {
+    
+    if (timeRangesList.size() == 0) {
+      availableTimeRanges.add(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TimeRange.END_OF_DAY, true));
+    } else if (timeRangesList.get(timeRangesList.size()-1).end() != endTime + 1) {
       availableTimeRanges.add(TimeRange.fromStartEnd(timeRangesList.get(timeRangesList.size()-1).end(), endTime, true));
     }
   }
