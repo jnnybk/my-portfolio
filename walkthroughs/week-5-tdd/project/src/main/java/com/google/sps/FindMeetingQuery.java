@@ -32,6 +32,7 @@ public final class FindMeetingQuery {
     Set<String> allAttendees = new HashSet(mandatoryAttendees);
     allAttendees.addAll(request.getOptionalAttendees());
 
+    // Create a new events list that only contains events whose attendees are mandatory or optional attendees.
     List<Event> eventsList = new ArrayList();
     for (Event event: events) {
       if (!Collections.disjoint(allAttendees, event.getAttendees())) {
